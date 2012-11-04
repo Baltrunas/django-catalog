@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+	<h1>
+		{% if seo.header %}
+			{{ seo.header|safe }}
+		{% else %}
+			{% trans "Catalog" %} &rarr; {{ category.display|safe }}
+		{% endif %}
+	</h1>
+
+	{% if categories %}
+		<div class='catalog-category-list'>
+		{% if products %}<h2>{% trans "Categories" %}</h2>{% endif %}
+			{% for category in categories %}
+				<figure>
+					<a href='{{category.get_absolute_url}}'>
+						{% if category.img %}
+							<p><img src="{{category.img.thumb_url}}" alt="{{category.name}}"></p>
+						{% endif %}
+						<figcaption>{{category.name}}</figcaption>
+					</a>
+				</figure>
+			{% endfor %}
+		</div>
+	{% endif %}
+
+
+	{% if products %}
+		{% regroup products_brands by brand as brands %}
+		<h2>{% trans "Brands" %}</h2>
+		<div id="brands">
+		{% for brand in brands %}
+		<figure class='b-gallery-image' style='background: url({{ brand.grouper.img.thumb_url }}) no-repeat center center;' data-brand='{{ brand.grouper.slug }}'>
+			<img src="{{ brand.grouper.img.thumb_url }}" alt='{{ brand.grouper.name }}' style='display: none;'>
+		</figure>
+		{% endfor %}
+		</div>
+
+		<h2>{% trans "Products" %}</h2>
+		<div class='catalog-products-list'>
+			{% for product in products %}
+			<figure style='width: 229px; padding: 15px; margin-top: 15px; margin-right: 15px; display: inline-block;' data-brand='{{ product.brand.slug }}'>
+				<a href="{{ product.get_absolute_url }}">
+					<div style='background: #fff url({{product.img.thumb_url}}) no-repeat center center; width: 229px; height: 229px; border: 1px solid #029FDB;'></div>
+					<span style='height: 60px; display: block;'>{{product.name}} - <b>{{product.price}} {% trans "$" %}</b></span>
+				</a>
+				<form method='POST' action='{% url basket %}'> 
+					{% csrf_token %}
+					<span style='margin-top: 0px; float: left;'>{% trans "Count" %}: </span>
+					<input type='number' min='1' name='count' value='1' style='width: 80px; float: right;'>
+					<input type='hidden' name='product' value='{{ product.id }}'>
+					<input type="submit" value="{% trans "Add to cart" %}" style='float: none; width: 229px; margin-top: 10px;'>
+				</form>
+			</figure>
+
+			{% endfor %}
+		</div>
+	{% endif %}
+
+	<script type="text/javascript">
+		$('#brands figure').on('click', function(){
+			$this = $(this);
+			if ($(this).hasClass('this_brand')){
+				$this.removeClass('this_brand');
+				$('.catalog-products-list figure').fadeIn(1000);
+			} else {
+				var brand = $this.data('brand');
+				$('#brands figure').removeClass('this_brand');
+				$this.addClass('this_brand');
+				$('.catalog-products-list figure').fadeOut(1000);
+				$('.catalog-products-list figure').filter(function() {
+					return $(this).data("brand") == brand;
+				}).fadeIn(1000);
+			}
+		});
+	</script>
+{% endblock %}

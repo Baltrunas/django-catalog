@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+	<h1>
+		{% if seo.header %}
+			{{ seo.header|safe }}
+		{% else %}
+			{{ product.name|safe }}
+		{% endif %}
+	</h1>
+	<div style='width: 400px; display: block; float: left;'>
+	<a href="{{ product.img.url }}" title="{{ product.name }}" class="colorbox">
+		<img src="{{ product.img.url }}" alt="{{ product.name }}" width="340"><br>
+	</a>
+	{% if product.images %}
+		{% for image in product.images.all %}
+			<a href="{{ image.img.url }}" title="{{ image.name }}" class="colorbox">
+				<img src="{{ image.img.thumb_url }}" alt="{{ image.name }}" width="100">
+			</a>
+		{% endfor %}
+	{% endif %}
+	</div>
+	{{ product.short_description|safe }}
+	<big>{% trans "Price" %}: {{ product.price }} - {% trans "$" %}</big><br><br>
+	<form method='POST' action='{% url basket %}'> 
+		{% csrf_token %}
+		<span>{% trans "Count" %}: </span>
+		<input type='number' min='1' name='count' value='1'><br><br>
+		<input type='hidden' name='product' value='{{ product.id }}'>
+		<p>
+
+		</p>
+		<input type="submit" value="{% trans "Add to cart" %}" style='float: none; width: 200px; margin-bottom: 0px;'>
+	</form>
+
+	<h3>{% trans "Description" %}</h3>
+	{{ product.description|safe }}
+{% endblock %}
