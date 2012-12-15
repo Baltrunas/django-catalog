@@ -149,7 +149,7 @@ def order(request):
 
 				admin_content = render_to_string('catalog/email.html', context)
 				admin_subject = _('New Order')
-				sendmsg = EmailMultiAlternatives(admin_subject, admin_content, 'zakaz@winnie-pooh.kg', ['himik89@gmail.com'])
+				sendmsg = EmailMultiAlternatives(admin_subject, admin_content, 'no-reaply@winnie-pooh.kg', ['pooh0312@mail.ru'])
 				sendmsg.attach_alternative(admin_content, "text/html")
 				sendmsg.send()
 	else:
