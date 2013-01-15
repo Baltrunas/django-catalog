@@ -39,10 +39,10 @@ class FilesInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-	list_display = ('name', 'price', 'public', 'main', 'image_preview')
+	list_display = ('name', 'price', 'public', 'main', 'created_at', 'image_preview')
 	search_fields = ('name', 'price', 'public', 'main')
 	list_editable = ('public', 'main')
-	list_filter = ['public', 'main', 'category']
+	list_filter = ['public', 'main', 'brand', 'category']
 	inlines = [ImagesInline, FilesInline]
 
 admin.site.register(Product, ProductAdmin)
