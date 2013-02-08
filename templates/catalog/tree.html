@@ -1,0 +1,9 @@
+{% load tree %}
+<ul>
+	{% for child in child_set %}
+	<li> <a href="{{ child.get_absolute_url }}">{{ child }}</a></li>
+		{% if child.child_set.count > 0 %}
+			{% tree child 'magazine_tree.html' %}
+		{% endif %}
+	{% endfor %}
+</ul>
