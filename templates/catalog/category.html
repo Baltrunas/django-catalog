@@ -45,7 +45,7 @@
 					<div style='background: #fff url({{product.img.thumb_url}}) no-repeat center center; width: 229px; height: 229px; border: 1px solid #029FDB;'></div>
 					<span style='height: 60px; display: block;'>{{product.name}} - <b>{{product.price}} {% trans "$" %}</b></span>
 				</a>
-				<form method='POST' action='{% url basket %}'> 
+				<form method='POST' action='{% url 'basket' %}'> 
 					{% csrf_token %}
 					<span style='margin-top: 0px; float: left;'>{% trans "Count" %}: </span>
 					<input type='number' min='1' name='count' value='1' style='width: 80px; float: right;'>
