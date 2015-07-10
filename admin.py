@@ -1,68 +1,44 @@
-# -*- coding: utf-8 -*
 from django.contrib import admin
-from catalog.models import Category
-from catalog.models import Brand
-from catalog.models import Product
-from catalog.models import Images
-from catalog.models import Files
-from catalog.models import Basket
-from catalog.models import Order
 
-
-class CategoryAdmin(admin.ModelAdmin):
-	list_display = ('name', 'slug', 'url', 'public', 'main', 'order', 'image_preview')
-	search_fields = ('img', 'name', 'slug', 'url', 'public', 'main')
-	list_editable = ('public', 'main', 'order')
-	list_filter = ['public', 'main']
-
-admin.site.register(Category, CategoryAdmin)
+from .models import Brand
+from .models import Category
+from .models import Product
+from .models import Image
 
 
 class BrandAdmin(admin.ModelAdmin):
-	list_display = ('name', 'slug', 'order', 'public', 'image_preview')
-	search_fields = ('name', 'slug', 'order', 'public')
-	list_editable = ('public', 'order')
-	list_filter = ['public']
-
+	list_display = ['name']
+	search_fields = ['name']
+	save_as = True
 
 admin.site.register(Brand, BrandAdmin)
 
 
-class ImagesInline(admin.TabularInline):
-	model = Images
+
+class ImageInline(admin.TabularInline):
+	model = Image
 	extra = 0
-
-
-class FilesInline(admin.TabularInline):
-	model = Files
-	extra = 0
-
 
 class ProductAdmin(admin.ModelAdmin):
-	list_display = ('name', 'price', 'public', 'main', 'created_at', 'image_preview')
-	search_fields = ('name', 'price', 'public', 'main')
-	list_editable = ('public', 'main')
-	list_filter = ['public', 'main', 'brand', 'category']
-	inlines = [ImagesInline, FilesInline]
+	list_display = ['name', 'articul', 'retail_price', 'retail_price_with_discount']
+	search_fields = ['name', 'articul']
+	inlines = [ImageInline]
+	save_as = True
 
 admin.site.register(Product, ProductAdmin)
 
 
-class BasketAdmin(admin.ModelAdmin):
-	list_display = ('visitor', 'product', 'count', 'total_price', 'created_at', 'updated_at', 'send_order')
-	search_fields = ('visitor', 'product', 'count', 'total_price', 'created_at', 'updated_at', 'send_order')
-	list_filter = ['visitor', 'send_order']
+class CategoryAdmin(admin.ModelAdmin):
+	list_display = ['__unicode__', 'slug', 'url', 'real_order']
+	search_fields = ['name', 'slug']
+	save_as = True
 
-admin.site.register(Basket, BasketAdmin)
-
-
-class BasketInline(admin.StackedInline):
-	model = Basket
+admin.site.register(Category, CategoryAdmin)
 
 
-class OrderAdmin(admin.ModelAdmin):
-	list_display = ('name', 'email', 'phone', 'comment', 'created_at', 'total_price', 'delivery_status')
-	search_fields = ('name', 'email', 'phone', 'comment', 'created_at', 'total_price', 'delivery_status')
-	list_filter = ['name', 'email', 'phone', 'delivery_status']
+class ImageAdmin(admin.ModelAdmin):
+	list_display = ['__unicode__']
+	list_filter = ['created_at', 'updated_at']
+	search_fields = ['name']
 
-admin.site.register(Order, OrderAdmin)
+admin.site.register(Image, ImageAdmin)

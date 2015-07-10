@@ -1,28 +1,59 @@
-# Django-Catalog
-A simple catalog.
+удаление старых файлов при загрузке новых
 
-# About
-A simple catalog.
+путь загрузки в категории для иконки
+путь загрузки в категории для ковера
 
-# Install
-* url(r'^catalog/', include('catalog.urls')),
-* 'catalog',
+путь загрузки в товаре для ковер
+путь загрузки в изображении
 
-# Fow to use
-Just use...
+дерево категорий
 
-# Futures
-Категории
-Бренды
-Товары
-	Изображения
-
-Заказы
-Корзина
+description для бренда, категоии, изображения
 
 
+разобраться с категорией
+повыбирать выводимые поля со всех моделей
+создать урлки
+создать вьюхи
 
 
-# ChangeLog
-## 2012.10.25
-* Start develop
+is_deleted
+is_active
+
+
+
+
+
+
+Coocie Bucket
+	content_type
+	object_id
+	count
+
+
+Order
+	user
+
+	ammount
+
+	name
+	email
+	phone
+	comment
+
+	price_total
+	price_sklad
+	price_discont
+
+	status (созданн, обрабатывается, отменен выполнен)
+
+OrderItem
+	order
+	content_type
+	object_id
+
+	price_total
+	price_sklad
+	price_discont
+
+	count
