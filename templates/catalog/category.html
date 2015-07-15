@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
+
+{% load static %}
+
 {% load thumbnail %}
+
 {% load bucket %}
 
 {% block content %}
 
 <h1>{% firstof seo.header category.name %}</h1>
 
-
+{% if category.childs %}
 <ul class='b-category_menu'>
 	{% for category in category.childs.all %}
 		<li class='b-category-menu_item'>
@@ -20,17 +24,18 @@
 		</li>
 	{% endfor %}
 </ul><!-- b-category_menu -->
+{% endif %}
 
 
 <div class='b-products'>
 	{% for product in category.products.all %}
 
 		<div class='b-product'>
-			{% if product.cover %}
-				{% thumbnail product.cover "140x140" crop="center" as im %}
-					<img class='b-product_cover' src='{{ im.url }}' alt='{{ product.name }}'>
-				{% endthumbnail %}
-			{% endif %}	
+			{% thumbnail product.cover "150x150" crop="center" as im %}
+				<img class='b-product__cover' src='{{ im.url }}' alt='{{ product.name }}'>
+			{% empty %}
+				<img class='b-product__cover' src='{% static "catalog/img/cover-picture.png" %}' alt='{{ product.name }}'>
+			{% endthumbnail %}
 
 			<a class='b-product__name' href='{{ product.get_absolute_url }}'>{{ product.name }}</a>
 

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load thumbnail %}
+{% load bucket %}
+
+{% block content %}
+	<h1>{{ product.name }}</h1>
+
+
+	{% thumbnail product.cover "500x500" crop="center" as im %}
+		<img class='b-image__image' src='{{ im.url }}' alt='{{ product.name }}'>
+	{% endthumbnail %}
+
+	{% for image in product.images.all %}
+		<div class="b-image">
+			{% thumbnail image.image "150x150" crop="center" as im %}
+				<a href='{{ image.image.url }}'>
+					<img class='b-image__image' src='{{ im.url }}' alt='{{ product.name }}'>
+				</a>
+			{% endthumbnail %}
+		</div>
+	{% endfor %}
+	<p>sync_id: {{ product.sync_id }}</p>
+	<p>barcode: {{ product.barcode }}</p>
+	<p>brand: {{ product.brand }}</p>
+	<p>category: {{ product.category }}</p>
+	<p>cover: {{ product.cover }}</p>
+	<p>description: {{ product.description }}</p>
+	<p>articul: {{ product.articul }}</p>
+	<p>retail_price: {{ product.retail_price }}</p>
+	<p>wholesale_price: {{ product.wholesale_price }}</p>
+	<p>retail_price_with_discount: {{ product.retail_price_with_discount }}</p>
+	<p>min_quantity_for_order: {{ product.min_quantity_for_order }}</p>
+	<p>warehouse_quantity: {{ product.warehouse_quantity }}</p>
+	<p>height: {{ product.height }}</p>
+	<p>width: {{ product.width }}</p>
+	<p>size: {{ product.size }}</p>
+	<p>color: {{ product.color }}</p>
+	<p>material: {{ product.material }}</p>
+	<p>sex: {{ product.sex }}</p>
+	<p>season: {{ product.season }}</p>
+	<p>age: {{ product.age }}</p>
+{% endblock content %}

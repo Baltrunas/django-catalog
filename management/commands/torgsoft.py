@@ -29,7 +29,8 @@ class Command(BaseCommand):
 
 		next(product_string)
 		for row in product_string:
-			product, created = Product.objects.get_or_create(sync_id=row[0])
+			defaults = {'description': ''}
+			product, created = Product.objects.get_or_create(sync_id=row[0], defaults=defaults)
 			if created:
 				product.name=row[1]
 				product.description=row[2]

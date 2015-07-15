@@ -164,6 +164,10 @@ class Product(BaseModel):
 		verbose_name = _('Product')
 		verbose_name_plural = _('Products')
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ('catalog_product', (), {'url': self.category.url, 'id': self.id})
+
 	def get_content_type(self):
 		return ContentType.objects.get_for_model(self)
 
@@ -172,7 +176,7 @@ class Product(BaseModel):
 
 
 class Image(BaseModel):
-	product = models.ForeignKey(Product, verbose_name=_('Product'))
+	product = models.ForeignKey(Product, verbose_name=_('Product'), related_name='images')
 	name = models.CharField(_('Name'), max_length=128, null=True, blank=True)
 	image = models.FileField(_('Image'), upload_to=image_upload)
 
