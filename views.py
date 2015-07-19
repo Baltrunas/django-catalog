@@ -11,9 +11,7 @@ def category(request, url):
 	context['category'] = get_object_or_404(Category, public=True, url=url)
 	context['title'] = context['category'].name
 
-	context['categories'] = Category.objects.filter(public=True, parent=context['category'].id)
-	context['products'] = Product.objects.filter(public=True, category=context['category'].id)
-	context['products_brands'] = Product.objects.filter(public=True, category=context['category'].id).order_by('brand')
+	# context['products_brands'] = Product.objects.filter(public=True, category=context['category'].id).order_by('brand')
 
 	return render(request, 'catalog/category.html', context)
 

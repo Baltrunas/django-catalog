@@ -3,42 +3,105 @@
 {% load static %}
 {% load thumbnail %}
 {% load bucket %}
-
+{% load breadcrumbs %}
+{% load i18n %}
 {% block content %}
+
+{% breadcrumbs product %}
+
 	<h1>{{ product.name }}</h1>
 
+	<div class="b-product-images">
+		{% thumbnail product.cover "600x500" as im %}
+			<img class='b-product-images__cover' src='{{ im.url }}' alt='{{ product.name }}' style='padding :{{ im|margin:"600x500" }}'>
+		{% endthumbnail %}
 
-	{% thumbnail product.cover "500x500" crop="center" as im %}
-		<img class='b-image__image' src='{{ im.url }}' alt='{{ product.name }}'>
-	{% endthumbnail %}
-
-	{% for image in product.images.all %}
-		<div class="b-image">
-			{% thumbnail image.image "150x150" crop="center" as im %}
-				<a href='{{ image.image.url }}'>
-					<img class='b-image__image' src='{{ im.url }}' alt='{{ product.name }}'>
+		{% if product.images.all %}
+			{% thumbnail product.cover "600x500" as im %}
+				<a href='{{ im.url }}' class='b-product-image' data-padding='{{ im|margin:"600x500" }}'>
+					{% thumbnail product.cover "150x150" crop="center" as thmb %}
+						<img class='b-product-image__image' src='{{ thmb.url }}' alt='{{ product.name }}'>
+					{% endthumbnail %}
 				</a>
 			{% endthumbnail %}
+		{% endif %}
+		{% for image in product.images.all %}
+			{% thumbnail image.image "600x500" as im %}
+				<a href='{{ im.url }}' class='b-product-image' data-padding='{{ im|margin:"600x500" }}'>
+					{% thumbnail image.image "150x150" crop="center" as thmb %}
+						<img class='b-product-image__image' src='{{ thmb.url }}' alt='{{ image.name }}'>
+					{% endthumbnail %}
+				</a>
+			{% endthumbnail %}
+		{% endfor %}
+	</div>
+
+
+<script type="text/javascript">
+$('.b-product-image').on('click', function(e){
+	$('.b-product-images__cover').attr('src', $(this).attr('href'));
+	$('.b-product-images__cover').css('padding', $(this).data('padding'));
+	e.preventDefault();
+});
+</script>
+
+
+	<div class="b-product-info">
+
+		<p class='b-product-info__price'>
+			{% if product.retail_price_with_discount < product.retail_price %}
+				<span class="b-product-info__old_price">{{ product.retail_price|floatformat:0 }} сом</span>
+			{% endif %}
+			<span class="b-product-info__new_price">{{ product.retail_price_with_discount|floatformat:0 }} сом</span>
+		</p>
+		<p>{% trans "Warehouse quantity" %}: <b>{{ product.warehouse_quantity }}</b></p>
+		<p>{% trans "Brand" %}: <b>{{ product.brand }}</b></p>
+		<p>{% trans "Articul" %}: <b>{{ product.articul }}</b></p>
+		{# <p>{% trans "Barcode" %}: {{ product.barcode }}</p> #}
+
+		<div class="b-bucket-add">
+			<input class='b-bucket-add__count' type='number' name='count' maxlength='3' value='1' min='1' max='{{ product.warehouse_quantity }}'>
+			<button class='b-bucket-add__button'
+				data-csrf='{{ csrf_token }}'
+				data-content_type='{{ product.get_content_type.id }}'
+				data-object_id='{{ product.id }}'
+			>
+				В корзину
+			</button>
+			{% in_bucket product as products_in_bucked %}
+			<span class='b-in-bucket {% if products_in_bucked %}m-in-bucket_True{% endif %}'>
+				В корзине:
+				<span class='b-in-bucket__count'>{{ products_in_bucked }}</span>
+			</span>
 		</div>
-	{% endfor %}
-	<p>sync_id: {{ product.sync_id }}</p>
-	<p>barcode: {{ product.barcode }}</p>
-	<p>brand: {{ product.brand }}</p>
-	<p>category: {{ product.category }}</p>
-	<p>cover: {{ product.cover }}</p>
-	<p>description: {{ product.description }}</p>
-	<p>articul: {{ product.articul }}</p>
-	<p>retail_price: {{ product.retail_price }}</p>
-	<p>wholesale_price: {{ product.wholesale_price }}</p>
-	<p>retail_price_with_discount: {{ product.retail_price_with_discount }}</p>
-	<p>min_quantity_for_order: {{ product.min_quantity_for_order }}</p>
-	<p>warehouse_quantity: {{ product.warehouse_quantity }}</p>
-	<p>height: {{ product.height }}</p>
-	<p>width: {{ product.width }}</p>
-	<p>size: {{ product.size }}</p>
-	<p>color: {{ product.color }}</p>
-	<p>material: {{ product.material }}</p>
-	<p>sex: {{ product.sex }}</p>
-	<p>season: {{ product.season }}</p>
-	<p>age: {{ product.age }}</p>
+
+		{% if product. %}
+			<p>{% trans "Height" %}: {{ product.height }}</p>
+		{% endif %}
+		{% if product. %}
+			<p>{% trans "Width" %}: {{ product.width }}</p>
+		{% endif %}
+		{% if product. %}
+			<p>{% trans "Size" %}: {{ product.size }}</p>
+		{% endif %}
+		{% if product. %}
+			<p>{% trans "Color" %}: {{ product.color }}</p>
+		{% endif %}
+		{% if product. %}
+			<p>{% trans "Material" %}: {{ product.material }}</p>
+		{% endif %}
+		{% if product. %}
+			<p>{% trans "Sex" %}: {{ product.sex }}</p>
+		{% endif %}
+		{% if product. %}
+			<p>{% trans "Season" %}: {{ product.season }}</p>
+		{% endif %}
+		{% if product. %}
+			<p>{% trans "Age" %}: {{ product.age }}</p>
+		{% endif %}
+		
+		<div class="b-product-description">{{ product.description }}</div>
+	</div>
+
+
 {% endblock content %}

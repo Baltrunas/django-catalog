@@ -1,0 +1,246 @@
+/**
+ **************************
+ Catalog
+ **************************
+*/
+.b-products {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background: #fff;
+	overflow: hidden;
+	padding-left: 20px;
+}
+
+.b-product {
+	border: 1px solid #ddd;
+	float: left;
+	width: 230px;
+	margin-right: 15px;
+	display: block;
+	overflow: hidden;
+	margin-bottom: 30px;
+	padding: 20px 0;
+	height: 320px;
+	padding: 10px 10px 35px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	position: relative;
+}
+
+.b-product:nth-of-type(4n) {
+	/*margin-right: 0;*/
+}
+
+.b-product__cover {
+	width: 150px;
+	height: 150px;
+	display: block;
+	margin: 0 auto 10px;
+
+}
+
+.b-product__name {
+	display: block;
+	color: #666;
+	font-size: 14px;
+	line-height: 18px;
+	margin-bottom: 10px;
+	text-align: center;
+	height: 40px;
+}
+
+.b-product__name:hover {
+	text-decoration: underline;
+}
+
+.b-product__price {
+	font-size: 15px;
+	margin-bottom: 6px;
+}
+
+.b-product__price_new:after,
+.b-product__price_old:after {
+	content: ' сом';
+}
+
+.b-product__price_new {
+	font-weight: 500;
+	color: green;
+}
+
+.b-product__price_old {
+	color: red;
+	text-decoration: line-through;
+	float: right;
+}
+
+
+
+/**
+ **************************
+ Brands
+ **************************
+*/
+.b-brands  {
+	overflow: hidden;
+	padding: 8px 0;
+}
+
+.b-brands_item {
+	float: left;
+	width: 150px;
+	height: 80px;
+	margin-left: 0px;
+}
+
+.b-brands li:first-child {
+	margin-left: 0;
+}
+
+
+
+.b-sub-catigories {
+	margin-bottom: 20px;
+	display: block;
+}
+
+.b-sub-catigory_link {
+	font-size: 14px;
+	padding: 10px 0;
+	line-height: 25px;
+	color: #515151;
+}
+
+.b-sub-catigory_link:hover {
+	color: #0b9cd1;
+}
+
+.b-sub-catigory_link span {
+	color: #0b9cd1;
+}
+
+/**
+ **************************
+ Category tree
+ **************************
+*/
+.m-level-1.b-category-tree {
+	float: left;
+	width: 250px;
+	position: relative;
+}
+
+.b-category-tree-item {
+	border-top: 1px solid #ccc;
+	padding: 0 10px;
+	display: block;
+}
+
+
+.b-category-tree-item:hover {
+	background: rgba(11, 156, 209, 0.1);
+}
+
+.b-category-tree-item.m-has_childs:hover {
+	background-image: url('../img/left-arrow.png');
+	-webkit-background-size: 16px 16px;
+	background-size: 16px 24px;
+	background-position: 220px center;
+	background-repeat: no-repeat;
+}
+
+.b-category-tree-item:first-of-type {
+	border-top: none;
+}
+
+.b-category-tree-item__icon {
+	width: 22px;
+	display: inline-block;
+	margin: 3px 12px 5px 0;
+	float: left;
+}
+
+.b-category-tree-item__link {
+	font-size: 14px;
+	padding: 10px 0;
+	line-height: 35px;
+	height: 35px;
+	color: #515151;
+	display: block;
+}
+
+.b-category-tree-item__link:hover {
+	text-decoration: underline;
+	color: #0b9cd1;
+}
+
+.b-category-tree-item__count {
+	color: #0b9cd1;
+}
+
+.m-level-1 .b-category-tree-item:hover .b-category-tree.m-level-2,
+.m-level-2 .b-category-tree-item:hover .b-category-tree.m-level-3,
+.m-level-3 .b-category-tree-item:hover .b-category-tree.m-level-4 {
+	display: block;
+}
+
+.m-level-2.b-category-tree,
+.m-level-3.b-category-tree,
+.m-level-4.b-category-tree {
+	position: absolute;
+	width: 250px;
+	z-index: 50000;
+	display: none;
+	left: 250px;
+	background: #fff;
+	border: 1px solid silver;
+	margin-top: -56px;
+}
+
+
+/**
+ **************************
+ In bucket
+ **************************
+*/
+.b-in-bucket {
+	font-size: 12px;
+	position: absolute;
+	z-index: 200;
+	bottom: 10px;
+	left: 10px;
+	display: block;
+	padding: 4px 16px;
+	text-align: left;
+	color: #ccc;
+	border-radius: 2px;
+	background: #eee;
+}
+
+.b-in-bucket:before {
+	content: ' ';
+	position: absolute;
+	left: 9%;
+	top: -9px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 10px 10px 10px;
+	border-color: transparent transparent #eee transparent;
+}
+
+.m-in-bucket_True {
+	background: #f7f77f;
+	color: #666;
+}
+
+.m-in-bucket_True:before {
+	border-color: transparent transparent #f7f77f transparent;
+}
+
+.b-in-bucket__count {
+	color: #000;
+	font-weight: 700;
+}

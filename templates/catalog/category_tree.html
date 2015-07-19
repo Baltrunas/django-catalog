@@ -1,0 +1,30 @@
+{% load catalog_tags %}
+
+{% spaceless %}
+
+<ul class='b-category-tree m-level-{{ level }}'>
+	{% for category in categories %}
+		<li class='
+			b-category-tree-item
+			m-id_{{ category.id }}
+			{% if category.childs_count > 0 %}m-has_childs{% endif %}
+		'>
+
+			<a class='b-category-tree-item__link' href='{{ category.get_absolute_url }}'>
+				{% if category.icon %}
+					<img class='b-category-tree-item__icon' src='{{ category.icon.url }}'>
+				{% endif %}
+				{{ category.name }}
+				<span class='b-category-tree-item__count'>
+					({{ category.products_total_count }})
+				</span>
+			</a>
+
+			{% if category.childs_count > 0 %}
+				{% catalog category %}
+			{% endif %}
+		</li>
+	{% endfor %}
+</ul><!-- b-category_menu -->
+
+{% endspaceless %}

@@ -1,34 +1,39 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
 {% load thumbnail %}
-
 {% load bucket %}
+{% load i18n %}
+{% load catalog_tags %}
 
 {% block content %}
 
 <h1>{% firstof seo.header category.name %}</h1>
 
-{% if category.childs %}
-<ul class='b-category_menu'>
-	{% for category in category.childs.all %}
-		<li class='b-category-menu_item'>
-			<a class='b-category-menu_link' href='{{ category.get_absolute_url }}'>
-				{% if category.icon %}
-					<img class='b-category-menu_icon' src='{{ category.icon.url }}'>
-				{% endif %}
-				{{ category.name }}
-				<span class='times'>({{ category.products_count }})</span>
-			</a>
-		</li>
-	{% endfor %}
-</ul><!-- b-category_menu -->
-{% endif %}
+{% catalog %}
 
 
 <div class='b-products'>
-	{% for product in category.products.all %}
+
+{% spaceless %}
+
+{% if category.childs_count %}
+<div class='b-sub-catigories'>
+	<h3>{% trans "Sub categories" %}</h3>
+	{% for sub_category in category.get_childs %}
+		<a class='b-sub-catigory_link' href='{{ sub_category.get_absolute_url }}'>
+			{{ sub_category.name }}
+			<span>({{ sub_category.products_count }})</span>
+		</a>
+		{% if forloop.last %}.{% else %},{% endif %}
+	{% endfor %}
+</div>
+{% endif %}
+
+{% endspaceless %}
+
+
+	{% for product in category.get_products %}
 
 		<div class='b-product'>
 			{% thumbnail product.cover "150x150" crop="center" as im %}
@@ -45,19 +50,21 @@
 					<span class='b-product__price_old'>{{ product.retail_price|floatformat:0 }}</span>
 				{% endif %}
 			</div>
-			<input class='b-btn_number' type='number' name='count' maxlength='3' value='1' min='1' max='{{ product.warehouse_quantity }}'>
-			<button class='b-bucket-add b-btn_default'
-				data-csrf='{{ csrf_token }}'
-				data-content_type='{{ product.get_content_type.id }}'
-				data-object_id='{{ product.id }}'
-			>
-				В корзину
-			</button>
-			{% in_bucket product as products_in_bucked %}
-			<span class='b-in-bucket {% if products_in_bucked %}m-in-bucket_True{% endif %}'>
-				<b>В корзине:</b>
-				<span class='b-in-bucket__count'>{{ products_in_bucked }}</span>
-			</span>
+			<div class="b-bucket-add">
+				<input class='b-bucket-add__count' type='number' name='count' maxlength='3' value='1' min='1' max='{{ product.warehouse_quantity }}'>
+				<button class='b-bucket-add__button'
+					data-csrf='{{ csrf_token }}'
+					data-content_type='{{ product.get_content_type.id }}'
+					data-object_id='{{ product.id }}'
+				>
+					В корзину
+				</button>
+				{% in_bucket product as products_in_bucked %}
+				<span class='b-in-bucket {% if products_in_bucked %}m-in-bucket_True{% endif %}'>
+					В корзине:
+					<span class='b-in-bucket__count'>{{ products_in_bucked }}</span>
+				</span>
+			</div><!-- b-bucket-add -->
 		</div><!-- b-product -->
 	{% endfor %}
 </div><!-- b-products -->

@@ -21,6 +21,7 @@ class ImageInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
 	list_display = ['name', 'articul', 'retail_price', 'retail_price_with_discount']
+	list_filter = ['category']
 	search_fields = ['name', 'articul']
 	inlines = [ImageInline]
 	save_as = True
@@ -30,6 +31,7 @@ admin.site.register(Product, ProductAdmin)
 
 class CategoryAdmin(admin.ModelAdmin):
 	list_display = ['__unicode__', 'slug', 'url', 'real_order']
+	list_filter = ['level']
 	search_fields = ['name', 'slug']
 	save_as = True
 

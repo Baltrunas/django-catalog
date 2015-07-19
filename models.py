@@ -62,6 +62,11 @@ class Category(BaseModel):
 	level = models.IntegerField(default=0, editable=False)
 	order = models.IntegerField(default=500, null=True, blank=True)
 	real_order = models.IntegerField(default=500, null=True, blank=True, editable=False)
+
+	childs_count = models.IntegerField(default=0, null=True, blank=True, editable=False)
+	products_count = models.IntegerField(default=0, null=True, blank=True, editable=False)
+	products_total_count = models.IntegerField(default=0, null=True, blank=True, editable=False)
+
 	url = models.CharField(verbose_name=_('URL'), max_length=1024, null=True, blank=True, editable=False)
 
 	def __init__(self, *args, **kwargs):
@@ -74,8 +79,23 @@ class Category(BaseModel):
 	def get_absolute_url(self):
 		return ('catalog_category', (), {'url': self.url})
 
-	def products_count(self):
+	def get_childs(self):
+		return self.childs.filter(public=True)
+
+	def get_products(self):
+		return self.products.filter(deleted=False, public=True)
+
+	def get_childs_count(self):
+		return self.childs.filter(public=True).count()
+
+	def get_products_count(self):
 		return self.products.filter(deleted=False, public=True).count()
+
+	def get_products_total_count(self):
+		count = self.get_products_count()
+		for child in self.childs.filter(public=True):
+			count += child.get_products_total_count()
+		return count
 
 	def get_level(self):
 		level = self.url.count('/')
@@ -94,6 +114,23 @@ class Category(BaseModel):
 			i = self.resort(category.id, i)
 		return i
 
+	def is_current(self, url):
+		if self.url == url:
+			return True
+		else:
+			return False
+
+	def is_parent(self, url):
+		childs = self.childs.filter(public=True)
+		if childs:
+			for item in childs:
+				if item.url == url:
+					return True
+				else:
+					return item.is_parent(url)
+		else:
+			return False
+
 	def save(self, sort=True, *args, **kwargs):
 		if self.parent:
 			self.url = self.parent.url + '/' + self.slug 
@@ -101,6 +138,9 @@ class Category(BaseModel):
 			self.url = self.slug
 
 		self.level = self.get_level()
+		self.childs_count = self.get_childs_count()
+		self.products_count = self.get_products_count()
+		self.products_total_count = self.get_products_total_count()
 
 		super(Category, self).save(*args, **kwargs)
 
