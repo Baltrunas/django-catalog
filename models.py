@@ -42,6 +42,11 @@ class Brand(BaseModel):
 	slug = models.SlugField(verbose_name=_('Slug'), max_length=128, help_text=_('A slug is the part of a URL which identifies a page using human-readable keywords'))
 	logo = models.FileField(verbose_name=_('Logo'), upload_to=brand_upload, null=True, blank=True)
 
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('catalog_brand', (), {'slug': self.slug})
+
 	def __unicode__(self):
 		return self.name
 
@@ -155,7 +160,7 @@ class Category(BaseModel):
 
 
 	class Meta:
-		ordering = ['real_order']
+		ordering = ['real_order', 'name']
 		verbose_name = _('Category')
 		verbose_name_plural = _('Categories')
 

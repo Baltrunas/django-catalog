@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load thumbnail %}
+{% load bucket %}
+{% load i18n %}
+{% load catalog_tags %}
+
+
+{% block content %}
+
+<h1>{% firstof seo.header brand.name %}</h1>
+
+{% catalog %}
+
+<div class='b-products'>
+
+	{% for product in childs %}
+
+		<div class='b-product'>
+			{% thumbnail product.cover "150x150" crop="center" as im %}
+				<img class='b-product__cover' src='{{ im.url }}' alt='{{ product.name }}'>
+			{% empty %}
+				<img class='b-product__cover' src='{% static "catalog/img/cover-picture.png" %}' alt='{{ product.name }}'>
+			{% endthumbnail %}
+
+			<a class='b-product__name' href='{{ product.get_absolute_url }}'>{{ product.name }}</a>
+
+			<div class='b-product__price'>
+				<span class='b-product__price_new'>{{ product.retail_price_with_discount|floatformat:0 }}</span>
+				{% if product.retail_price_with_discount < product.retail_price %}
+					<span class='b-product__price_old'>{{ product.retail_price|floatformat:0 }}</span>
+				{% endif %}
+			</div>
+			<div class="b-bucket-add">
+				<input class='b-bucket-add__count' type='number' name='count' maxlength='3' value='1' min='1' max='{{ product.warehouse_quantity }}'>
+				<button class='b-bucket-add__button'
+					data-csrf='{{ csrf_token }}'
+					data-content_type='{{ product.get_content_type.id }}'
+					data-object_id='{{ product.id }}'
+				>
+					В корзину
+				</button>
+				{% in_bucket product as products_in_bucked %}
+				<span class='b-in-bucket {% if products_in_bucked %}m-in-bucket_True{% endif %}'>
+					В корзине:
+					<span class='b-in-bucket__count'>{{ products_in_bucked }}</span>
+				</span>
+			</div><!-- b-bucket-add -->
+		</div><!-- b-product -->
+	{% endfor %}
+</div><!-- b-products -->
+
+
+{% endblock %}

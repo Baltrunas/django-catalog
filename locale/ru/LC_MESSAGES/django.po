@@ -1,0 +1,202 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-28 12:23+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: models.py:11
+msgid "Public"
+msgstr "Публикация"
+
+#: models.py:12
+msgid "Created at"
+msgstr "Создано"
+
+#: models.py:13
+msgid "Updated at"
+msgstr "Обновлено"
+
+#: models.py:41 models.py:55 models.py:167 models.py:220
+msgid "Name"
+msgstr "Имя"
+
+#: models.py:42 models.py:56
+msgid "Slug"
+msgstr "Ярлык"
+
+#: models.py:42 models.py:56
+msgid ""
+"A slug is the part of a URL which identifies a page using human-readable "
+"keywords"
+msgstr ""
+
+#: models.py:43
+msgid "Logo"
+msgstr "Лого"
+
+#: models.py:50 models.py:168 templates/catalog/product.html:65
+msgid "Brand"
+msgstr "Бренд"
+
+#: models.py:51
+msgid "Brands"
+msgstr "Бренды"
+
+#: models.py:57
+msgid "Cover"
+msgstr "Обложка"
+
+#: models.py:58
+msgid "Icon"
+msgstr "Иконка"
+
+#: models.py:60
+msgid "Parent"
+msgstr "Родитель"
+
+#: models.py:70
+msgid "URL"
+msgstr ""
+
+#: models.py:159 models.py:169
+msgid "Category"
+msgstr "Категория"
+
+#: models.py:160
+msgid "Categories"
+msgstr "Категории"
+
+#: models.py:164
+msgid "Sync ID"
+msgstr ""
+
+#: models.py:165 templates/catalog/product.html:67
+msgid "Barcode"
+msgstr "Штрих-код"
+
+#: models.py:170 models.py:221 models.py:229
+msgid "Image"
+msgstr "Изображение"
+
+#: models.py:171
+msgid "Description"
+msgstr "Описание"
+
+#: models.py:173 templates/catalog/product.html:66
+msgid "Articul"
+msgstr "Артикул"
+
+#: models.py:175
+msgid "Retail Price"
+msgstr "Цена"
+
+#: models.py:176
+msgid "Wholesale Price"
+msgstr "Цена склада"
+
+#: models.py:177
+msgid "Retail Price With Discount"
+msgstr "Цена со скидкой"
+
+#: models.py:178
+msgid "Min Quantity For Order"
+msgstr "Минимальное количество для заказа"
+
+#: models.py:179
+msgid "Warehouse Quantity"
+msgstr "Количество на складе"
+
+#: models.py:181 templates/catalog/product.html:86
+msgid "Height"
+msgstr "Высота"
+
+#: models.py:182 templates/catalog/product.html:89
+msgid "Width"
+msgstr "Ширина"
+
+#: models.py:183
+msgid "The Size"
+msgstr "Размер"
+
+#: models.py:184 templates/catalog/product.html:95
+msgid "Color"
+msgstr "Цвет"
+
+#: models.py:185 templates/catalog/product.html:98
+msgid "Material"
+msgstr "Материал"
+
+#: models.py:188
+msgid "Undefined"
+msgstr "Не указан"
+
+#: models.py:189
+msgid "Man"
+msgstr "Мужской"
+
+#: models.py:190
+msgid "Women"
+msgstr "Женский"
+
+#: models.py:191
+msgid "Boy"
+msgstr "Мальчик"
+
+#: models.py:192
+msgid "Girl"
+msgstr "Девочка"
+
+#: models.py:193
+msgid "Unisex"
+msgstr ""
+
+#: models.py:195 templates/catalog/product.html:101
+msgid "Sex"
+msgstr "Пол"
+
+#: models.py:197 templates/catalog/product.html:104
+msgid "Season"
+msgstr "Сезон"
+
+#: models.py:198 templates/catalog/product.html:107
+msgid "Age"
+msgstr "Возраст"
+
+#: models.py:200
+msgid "Deleted"
+msgstr "Удалено"
+
+#: models.py:204 models.py:219
+msgid "Product"
+msgstr "Продукт"
+
+#: models.py:205
+msgid "Products"
+msgstr "Продукты"
+
+#: models.py:230
+msgid "Images"
+msgstr "Изображения"
+
+#: templates/catalog/category.html:21
+msgid "Sub categories"
+msgstr "Подкатегории"
+
+#: templates/catalog/product.html:92
+msgid "Size"
+msgstr "Размер"

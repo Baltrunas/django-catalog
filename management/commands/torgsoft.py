@@ -41,7 +41,6 @@ class Command(BaseCommand):
 
 				product.warehouse_quantity=row[12]
 
-				product.public=row[13]
 				product.size=row[14]
 				product.color=row[15]
 				product.material=row[16]
@@ -57,6 +56,11 @@ class Command(BaseCommand):
 				if os.path.isfile(image_puth):
 					product.cover = image_cover
 
+			product.public=row[13]
+
+			if not product.warehouse_quantity:
+				product.public = False
+
 			# # For all
 			product.retail_price=row[5]
 			product.wholesale_price=row[6]
@@ -65,15 +69,21 @@ class Command(BaseCommand):
 
 			# Update category
 			category = None
-			for category_name in row[20].split(','):
-				category, created = Category.objects.get_or_create(name=category_name, parent=category)
-				category.save(sort=False)
+			try:
+				for category_name in row[20].split(','):
+					category, created = Category.objects.get_or_create(name=category_name, parent=category)
+					category.save(sort=False)
+			except:
+				pass
 			product.category = category
 
 			# Update brand
 			brand = row[21].split(',')[-1]
-			brand, created = Brand.objects.get_or_create(name=brand)
-			brand.save()
+			try:
+				brand, created = Brand.objects.get_or_create(name=brand)
+				brand.save()
+			except:
+				brand = None
 			product.brand = brand
 
 			product.save()
