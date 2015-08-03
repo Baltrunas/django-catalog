@@ -20,8 +20,8 @@ class ImageInline(admin.TabularInline):
 	extra = 0
 
 class ProductAdmin(admin.ModelAdmin):
-	list_display = ['name', 'articul', 'retail_price', 'retail_price_with_discount']
-	list_filter = ['category']
+	list_display = ['name', 'sync_id', 'articul', 'retail_price', 'retail_price_with_discount']
+	list_filter = ['public', 'category']
 	search_fields = ['name', 'articul']
 	inlines = [ImageInline]
 	save_as = True
