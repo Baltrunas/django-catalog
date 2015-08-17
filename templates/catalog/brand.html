@@ -32,21 +32,7 @@
 					<span class='b-product__price_old'>{{ product.retail_price|floatformat:0 }}</span>
 				{% endif %}
 			</div>
-			<div class="b-bucket-add">
-				<input class='b-bucket-add__count' type='number' name='count' maxlength='3' value='1' min='1' max='{{ product.warehouse_quantity }}'>
-				<button class='b-bucket-add__button'
-					data-csrf='{{ csrf_token }}'
-					data-content_type='{{ product.get_content_type.id }}'
-					data-object_id='{{ product.id }}'
-				>
-					В корзину
-				</button>
-				{% in_bucket product as products_in_bucked %}
-				<span class='b-in-bucket {% if products_in_bucked %}m-in-bucket_True{% endif %}'>
-					В корзине:
-					<span class='b-in-bucket__count'>{{ products_in_bucked }}</span>
-				</span>
-			</div><!-- b-bucket-add -->
+			{% include "accounts/bucket__widget.html" with obj=product %}
 		</div><!-- b-product -->
 	{% endfor %}
 </div><!-- b-products -->

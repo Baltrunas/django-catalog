@@ -2,7 +2,6 @@
 
 {% load static %}
 {% load thumbnail %}
-{% load bucket %}
 {% load breadcrumbs %}
 {% load i18n %}
 {% block content %}
@@ -59,21 +58,7 @@ $('.b-product-image').on('click', function(e){
 		<p>{% trans "Articul" %}: <b>{{ product.articul }}</b></p>
 		{# <p>{% trans "Barcode" %}: {{ product.barcode }}</p> #}
 
-		<div class="b-bucket-add">
-			<input class='b-bucket-add__count' type='number' name='count' maxlength='3' value='1' min='1' max='{{ product.warehouse_quantity }}'>
-			<button class='b-bucket-add__button'
-				data-csrf='{{ csrf_token }}'
-				data-content_type='{{ product.get_content_type.id }}'
-				data-object_id='{{ product.id }}'
-			>
-				В корзину
-			</button>
-			{% in_bucket product as products_in_bucked %}
-			<span class='b-in-bucket {% if products_in_bucked %}m-in-bucket_True{% endif %}'>
-				В корзине:
-				<span class='b-in-bucket__count'>{{ products_in_bucked }}</span>
-			</span>
-		</div>
+		{% include "accounts/bucket__widget.html" with obj=product %}
 
 		{% if product. %}
 			<p>{% trans "Height" %}: {{ product.height }}</p>
@@ -100,7 +85,7 @@ $('.b-product-image').on('click', function(e){
 			<p>{% trans "Age" %}: {{ product.age }}</p>
 		{% endif %}
 		
-		<div class="b-product-description">{{ product.description }}</div>
+		<div class='b-product-description'>{{ product.description }}</div>
 	</div>
 
 
