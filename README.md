@@ -1,3 +1,7 @@
+* add to urls.py url(r'^catalog/', include('apps.catalog.urls')),
+* add to INSTALLED_APPS in settinhs.py 'apps.catalog',
+
+
 удаление старых файлов при загрузке новых
 
 путь загрузки в категории для иконки
