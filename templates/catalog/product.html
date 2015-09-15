@@ -15,6 +15,7 @@
 			<img class='b-product-images__cover' src='{{ im.url }}' alt='{{ product.name }}' style='padding :{{ im|margin:"600x500" }}'>
 		{% endthumbnail %}
 
+		{% comment %}
 		{% if product.images.all %}
 			{% thumbnail product.cover "600x500" as im %}
 				<a href='{{ im.url }}' class='b-product-image' data-padding='{{ im|margin:"600x500" }}'>
@@ -24,6 +25,11 @@
 				</a>
 			{% endthumbnail %}
 		{% endif %}
+
+		{% endcomment %}
+
+		{% if product.images.count > 1 %}
+
 		{% for image in product.images.all %}
 			{% thumbnail image.image "600x500" as im %}
 				<a href='{{ im.url }}' class='b-product-image' data-padding='{{ im|margin:"600x500" }}'>
@@ -33,6 +39,8 @@
 				</a>
 			{% endthumbnail %}
 		{% endfor %}
+
+		{% endif %}
 	</div>
 
 
@@ -53,10 +61,10 @@ $('.b-product-image').on('click', function(e){
 			{% endif %}
 			<span class="b-product-info__new_price">{{ product.retail_price_with_discount|floatformat:0 }} сом</span>
 		</p>
-		<p>{% trans "Warehouse quantity" %}: <b>{{ product.warehouse_quantity }}</b></p>
+		{# <p>{% trans "Warehouse quantity" %}: <b>{{ product.warehouse_quantity }}</b></p> #}
 		<p>{% trans "Brand" %}: <b>{{ product.brand }}</b></p>
 		<p>{% trans "Articul" %}: <b>{{ product.articul }}</b></p>
-		{# <p>{% trans "Barcode" %}: {{ product.barcode }}</p> #}
+		<p>{% trans "Barcode" %}: {{ product.barcode }}</p>
 
 		{% include "accounts/bucket__widget.html" with obj=product %}
 
@@ -85,7 +93,14 @@ $('.b-product-image').on('click', function(e){
 			<p>{% trans "Age" %}: {{ product.age }}</p>
 		{% endif %}
 		
-		<div class='b-product-description'>{{ product.description }}</div>
+		<div class='b-product-description'>{{ product.description }}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
 	</div>
 
 
