@@ -45,7 +45,8 @@
 
 
 
-	{% for product in category.get_products %}
+	{# {% for product in category.get_products %} #}
+	{% for product in pages_list %}
 		<div class='b-product'
 			data-price='{{ product.retail_price_with_discount|floatformat:0 }}'
 			data-created='{{ product.created_at|date:"U" }}'
@@ -69,7 +70,7 @@
 	{% endfor %}
 </div><!-- b-products -->
 
-
+{% include "pages/__blocks/paginator.html" %}
 
 <script type="text/javascript">
 	$('.b-sort__elem').on('click', function() {

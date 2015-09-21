@@ -2,6 +2,11 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
+from django.conf import settings
+
+# from django.http import Http404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from .models import Product
 from .models import Category
 from .models import Brand
@@ -12,6 +17,21 @@ def category(request, url):
 	context['category'] = get_object_or_404(Category, public=True, url=url)
 	context['childs'] = Category.objects.filter(public=True, parent=context['category']).order_by('name')
 	context['title'] = context['category'].name
+
+	# # Pagination
+	pages_list = context['category'].get_products()
+	page_number = request.GET.get('page', None)
+
+	paginator = Paginator(pages_list, settings.CATALOG_PER_PAGE)
+	try:
+		pages_list = paginator.page(page_number)
+	except PageNotAnInteger:
+		pages_list = paginator.page(1)
+	except EmptyPage:
+		pages_list = paginator.page(paginator.num_pages)
+
+	context['pages_list'] = pages_list
+
 
 	# context['products_brands'] = Product.objects.filter(public=True, category=context['category'].id).order_by('brand')
 
