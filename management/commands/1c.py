@@ -49,6 +49,8 @@ class Command(BaseCommand):
 			else:
 				new_product.public = False
 
+			new_product.guid = product['guid']
+
 			if created:
 				new_product.name = product['nameInMenu']
 
@@ -66,7 +68,7 @@ class Command(BaseCommand):
 
 			product_images = []
 			for image_file in os.listdir(images_puth):
-				img_re = '^' + product['id'] + '-(.*)\.jpg'
+				img_re = '^0*' + product['id'] + '-(.*)\.jpg'
 				compiled_img_re = re.compile(img_re)
 				image_r = compiled_img_re.findall(image_file)
 
@@ -76,10 +78,11 @@ class Command(BaseCommand):
 			# Update images
 			if product_images:
 				new_product.cover = '1c/upload/' + product_images[0]['file']
-				for pimg in product_images:
+				for pimg in product_images[1:]:
 					new_image, created = Image.objects.get_or_create(product=new_product, name=pimg['name'])
 					new_image.image = '1c/upload/' + pimg['file']
 					new_image.save()
+
 
 			new_product.save()
 			self.stdout.write('Sync: ' + new_product.name)

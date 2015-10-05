@@ -4,18 +4,18 @@
 {% load thumbnail %}
 {% load breadcrumbs %}
 {% load i18n %}
-{% block content %}
 
-{% breadcrumbs product %}
+{% block content %}
+<div class='m-app_catalog m-template_product'>
+	{% breadcrumbs product %}
 
 	<h1>{{ product.name }}</h1>
 
-	<div class="b-product-images">
+	<div class='b-product-images'>
 		{% thumbnail product.cover "600x500" as im %}
 			<img class='b-product-images__cover' src='{{ im.url }}' alt='{{ product.name }}' style='padding :{{ im|margin:"600x500" }}'>
 		{% endthumbnail %}
 
-		{% comment %}
 		{% if product.images.all %}
 			{% thumbnail product.cover "600x500" as im %}
 				<a href='{{ im.url }}' class='b-product-image' data-padding='{{ im|margin:"600x500" }}'>
@@ -24,24 +24,18 @@
 					{% endthumbnail %}
 				</a>
 			{% endthumbnail %}
+
+			{% for image in product.images.all %}
+				{% thumbnail image.image "600x500" as im %}
+					<a href='{{ im.url }}' class='b-product-image' data-padding='{{ im|margin:"600x500" }}'>
+						{% thumbnail image.image "150x150" crop="center" as thmb %}
+							<img class='b-product-image__image' src='{{ thmb.url }}' alt='{{ image.name }}'>
+						{% endthumbnail %}
+					</a>
+				{% endthumbnail %}
+			{% endfor %}
 		{% endif %}
-
-		{% endcomment %}
-
-		{% if product.images.count > 1 %}
-
-		{% for image in product.images.all %}
-			{% thumbnail image.image "600x500" as im %}
-				<a href='{{ im.url }}' class='b-product-image' data-padding='{{ im|margin:"600x500" }}'>
-					{% thumbnail image.image "150x150" crop="center" as thmb %}
-						<img class='b-product-image__image' src='{{ thmb.url }}' alt='{{ image.name }}'>
-					{% endthumbnail %}
-				</a>
-			{% endthumbnail %}
-		{% endfor %}
-
-		{% endif %}
-	</div>
+	</div><!-- b-product-images -->
 
 
 <script type="text/javascript">
@@ -52,56 +46,58 @@ $('.b-product-image').on('click', function(e){
 });
 </script>
 
-
-	<div class="b-product-info">
-
+	<div class='b-product-info'>
 		<p class='b-product-info__price'>
 			{% if product.retail_price_with_discount < product.retail_price %}
-				<span class="b-product-info__old_price">{{ product.retail_price|floatformat:0 }} сом</span>
+				<span class='b-product-info__old_price'>{{ product.retail_price|floatformat:0 }} сом</span>
 			{% endif %}
-			<span class="b-product-info__new_price">{{ product.retail_price_with_discount|floatformat:0 }} сом</span>
+			<span class='b-product-info__new_price'>{{ product.retail_price_with_discount|floatformat:0 }} сом</span>
 		</p>
-		{# <p>{% trans "Warehouse quantity" %}: <b>{{ product.warehouse_quantity }}</b></p> #}
-		<p>{% trans "Brand" %}: <b>{{ product.brand }}</b></p>
-		<p>{% trans "Articul" %}: <b>{{ product.articul }}</b></p>
-		<p>{% trans "Barcode" %}: {{ product.barcode }}</p>
 
 		{% include "accounts/bucket__widget.html" with obj=product %}
 
-		{% if product. %}
-			<p>{% trans "Height" %}: {{ product.height }}</p>
+		{% if product.warehouse_quantity %}
+			<p class='b-product-info__warehouse_quantity'>
+				{% trans "Warehouse quantity" %}: <b>{{ product.warehouse_quantity }}</b>
+			</p>
 		{% endif %}
-		{% if product. %}
-			<p>{% trans "Width" %}: {{ product.width }}</p>
-		{% endif %}
-		{% if product. %}
-			<p>{% trans "Size" %}: {{ product.size }}</p>
-		{% endif %}
-		{% if product. %}
-			<p>{% trans "Color" %}: {{ product.color }}</p>
-		{% endif %}
-		{% if product. %}
-			<p>{% trans "Material" %}: {{ product.material }}</p>
-		{% endif %}
-		{% if product. %}
-			<p>{% trans "Sex" %}: {{ product.sex }}</p>
-		{% endif %}
-		{% if product. %}
-			<p>{% trans "Season" %}: {{ product.season }}</p>
-		{% endif %}
-		{% if product. %}
-			<p>{% trans "Age" %}: {{ product.age }}</p>
-		{% endif %}
-		
-		<div class='b-product-description'>{{ product.description }}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		</div>
-	</div>
 
-
+		{% if product.brand %}
+			<p class='b-product-info__brand'>{% trans "Brand" %}: <b>{{ product.brand }}</b></p>
+		{% endif %}
+		{% if product.articul %}
+			<p class='b-product-info__articul'>{% trans "Articul" %}: <b>{{ product.articul }}</b></p>
+		{% endif %}
+		{% if product.brand %}
+			<p class='b-product-info__barcode'>{% trans "Barcode" %}: {{ product.barcode }}</p>
+		{% endif %}
+		{% if product.height %}
+			<p class='b-product-info__height'>{% trans "Height" %}: {{ product.height }}</p>
+		{% endif %}
+		{% if product.width %}
+			<p class='b-product-info__width'>{% trans "Width" %}: {{ product.width }}</p>
+		{% endif %}
+		{% if product.size %}
+			<p class='b-product-info__size'>{% trans "Size" %}: {{ product.size }}</p>
+		{% endif %}
+		{% if product.color %}
+			<p class='b-product-info__color'>{% trans "Color" %}: {{ product.color }}</p>
+		{% endif %}
+		{% if product.material %}
+			<p class='b-product-info__material'>{% trans "Material" %}: {{ product.material }}</p>
+		{% endif %}
+		{% if product.sex %}
+			<p class='b-product-info__sex'>{% trans "Sex" %}: {{ product.sex }}</p>
+		{% endif %}
+		{% if product.season %}
+			<p class='b-product-info__season'>{% trans "Season" %}: {{ product.season }}</p>
+		{% endif %}
+		{% if product.age %}
+			<p class='b-product-info__age'>{% trans "Age" %}: {{ product.age }}</p>
+		{% endif %}
+		{% if product.description %}
+			<div class='b-product-info__description'>{{ product.description }}</div>
+		{% endif %}
+	</div><!-- b-product-info -->
+</div><!-- m-app_catalog m-template_product -->
 {% endblock content %}

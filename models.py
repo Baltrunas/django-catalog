@@ -167,6 +167,7 @@ class Category(BaseModel):
 
 class Product(BaseModel):
 	sync_id = models.IntegerField(_('Sync ID'), null=True, blank=True, editable=False)
+	guid = models.CharField(_('GUID'), max_length=37, null=True, blank=True)
 	barcode = models.CharField(_('Barcode'), max_length=40, null=True, blank=True)
 
 	name = models.CharField(_('Name'), max_length=500)
@@ -175,7 +176,7 @@ class Product(BaseModel):
 	cover = models.FileField(verbose_name=_('Image'), upload_to=product_upload, null=True, blank=True)
 	description = models.TextField(_('Description'), null=True, blank=True)
 
-	articul = models.CharField(_('Articul'), max_length=30)
+	articul = models.CharField(_('Articul'), max_length=30, null=True, blank=True)
 
 	retail_price = models.DecimalField(_('Retail Price'), max_digits=16, decimal_places=4, default=Decimal('0.0000'))
 	wholesale_price = models.DecimalField(_('Wholesale Price'), max_digits=16, decimal_places=4, null=True, blank=True, default=Decimal('0.0000'))
@@ -202,10 +203,13 @@ class Product(BaseModel):
 	season = models.CharField(_('Season'), max_length=100, null=True, blank=True)
 	age = models.CharField(_('Age'), max_length=256, null=True, blank=True)
 
+	sort = models.IntegerField(verbose_name=_('Sort'), default=500, blank=True, null=True)
+
+	main = models.BooleanField(verbose_name=_('Main'), default=False)
 	deleted = models.BooleanField(_('Deleted'), default=False)
 
 	class Meta:
-		ordering = ['name']
+		ordering = ['sort', 'name']
 		verbose_name = _('Product')
 		verbose_name_plural = _('Products')
 
