@@ -80,12 +80,6 @@ def auth_check(view):
 
 @csrf_exempt
 @auth_check
-def json_check(request):
-	return HttpResponse(json.dumps({'auth': True}), content_type='application/json')
-
-
-@csrf_exempt
-@auth_check
 def json_category_list(request):
 	context = {}
 	context['auth'] = True
@@ -145,7 +139,7 @@ def json_product_list(request):
 def search(request):
 	if 'q' in request.GET and request.GET['q']:
 		q = request.GET['q']
-		product = list_to_json(Product.objects.filter(name__icontains=q, barcode__icontains=q))
+		product = list_to_json(Product.objects.filter(Q(name__icontains=q) | Q(barcode__icontains=q)))
 		return HttpResponse(json.dumps(product, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
 
 
