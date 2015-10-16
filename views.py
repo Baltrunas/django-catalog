@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+import json
+from django.http import HttpResponse
+from django.core import serializers
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+
+from django.db.models import Q
 
 from django.conf import settings
 
@@ -10,6 +15,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Product
 from .models import Category
 from .models import Brand
+from .models import Image
+
+from .forms import ProductForm, ImageForm
 
 
 def category(request, url):
@@ -54,3 +62,107 @@ def product(request, url, id):
 	context['similar'] = Product.objects.filter(public=True, category=context['product'].category).order_by('?')[:5]
 	context['title'] = context['product'].name
 	return render(request, 'catalog/product.html', context)
+
+
+def json_category_list(request):
+	context = {}
+	categories = []
+	for category in Category.objects.all():
+		category_dict = {
+			"id": category.id,
+			"name": category.name,
+			"parent": category.parent,
+		}
+		categories.append(category_dict)
+		context['categories'] = categories
+	return HttpResponse(json.dumps(context, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
+
+
+def list_to_json(raw_products):
+	products = []
+	for product in raw_products:
+		product.retail_price = str(product.retail_price)
+		product.wholesale_price = str(product.wholesale_price)
+		product.retail_price_with_discount = str(product.retail_price_with_discount)
+		images = []
+		for image in product.images.all():
+			image_dict = {
+				"id": image.id,
+				"product_id": image.product.id,
+				"name": image.name,
+				"image": image.image.url,
+			}
+			images.append(image_dict)
+		product_dict = {
+			"id": product.id,
+			"name": product.name,
+			"cover": product.cover.url,
+			"description": product.description,
+			"retail_price": product.retail_price,
+			"wholesale_price": product.wholesale_price,
+			"retail_price_with_discount": product.retail_price_with_discount,
+			"images": images,
+		}
+		products.append(product_dict)
+	return products
+
+
+def json_product_list(request):
+	context = {}
+	context['products'] = list_to_json(Product.objects.all())
+	return HttpResponse(json.dumps(context, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
+
+
+def search(request):
+	if 'q' in request.GET and request.GET['q']:
+		q = request.GET['q']
+		product = list_to_json(Product.objects.filter(name__icontains=q))
+		return HttpResponse(json.dumps(product, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
+
+
+def json_product_update(request, id):
+	context = {}
+	instance = Product.objects.get(id=id)
+	form = ProductForm(request.POST or None, request.FILES or None, instance=instance)
+	if form.is_valid():
+		form.save()
+		context['status'] = True
+	else:
+		context['status'] = False
+		context['errors'] = form.errors
+	return HttpResponse(json.dumps(context, ensure_ascii=False), content_type="application/json; charset=utf-8")
+
+
+def json_product_delete(request, id):
+	context = {}
+	try:
+		del_product = Product.objects.get(id=id)
+		del_product.delete()
+		context['status'] = True
+	except:
+		context['status'] = False
+	return HttpResponse(json.dumps(context))
+
+
+def json_image_add(request, id):
+	context = {}
+	image_form = ImageForm(request.POST, request.FILES)
+	if request.method == 'POST' and image_form.is_valid():
+		new_file = image_form.save(commit=False)
+		new_file.product = Product.objects.get(id=id)
+		new_file.save()
+		context['status'] = True
+	else:
+		context['status'] = False
+	return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+def json_image_delete(request, id):
+	context = {}
+	try:
+		del_image = Image.objects.get(id=id)
+		del_image.delete()
+		context['status'] = True
+	except:
+		context['status'] = False
+	return HttpResponse(json.dumps(context))
