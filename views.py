@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.core import serializers
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-
+from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
 from django.conf import settings
@@ -64,8 +64,31 @@ def product(request, url, id):
 	return render(request, 'catalog/product.html', context)
 
 
+
+def auth_check(view):
+	def wrapped(request, *args, **kwargs):
+		username = request.POST.get('username', None)
+		password = request.POST.get('password', None)
+		try:
+			user = User.objects.get(username=username)
+			status = user.check_password(password)
+		except:
+			return HttpResponse(json.dumps({'auth': False}), content_type='application/json')
+		return view(request, *args, **kwargs)
+	return wrapped
+
+
+@csrf_exempt
+@auth_check
+def json_check(request):
+	return HttpResponse(json.dumps({'auth': True}), content_type='application/json')
+
+
+@csrf_exempt
+@auth_check
 def json_category_list(request):
 	context = {}
+	context['auth'] = True
 	categories = []
 	for category in Category.objects.all():
 		category_dict = {
@@ -95,6 +118,7 @@ def list_to_json(raw_products):
 			images.append(image_dict)
 		product_dict = {
 			"id": product.id,
+			"barcode": product.barcode,
 			"name": product.name,
 			"cover": product.cover.url,
 			"description": product.description,
@@ -107,23 +131,31 @@ def list_to_json(raw_products):
 	return products
 
 
+@csrf_exempt
+@auth_check
 def json_product_list(request):
 	context = {}
+	context['auth'] = True
 	context['products'] = list_to_json(Product.objects.all())
 	return HttpResponse(json.dumps(context, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
 
 
+@csrf_exempt
+@auth_check
 def search(request):
 	if 'q' in request.GET and request.GET['q']:
 		q = request.GET['q']
-		product = list_to_json(Product.objects.filter(name__icontains=q))
+		product = list_to_json(Product.objects.filter(name__icontains=q, barcode__icontains=q))
 		return HttpResponse(json.dumps(product, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
 
 
-def json_product_update(request, id):
+@csrf_exempt
+@auth_check
+def json_product_update(request, product_id):
 	context = {}
-	instance = Product.objects.get(id=id)
-	form = ProductForm(request.POST or None, request.FILES or None, instance=instance)
+	context['auth'] = True
+	product_instance = Product.objects.get(id=product_id)
+	form = ProductForm(request.POST or None, request.FILES or None, instance=product_instance)
 	if form.is_valid():
 		form.save()
 		context['status'] = True
@@ -133,10 +165,13 @@ def json_product_update(request, id):
 	return HttpResponse(json.dumps(context, ensure_ascii=False), content_type="application/json; charset=utf-8")
 
 
-def json_product_delete(request, id):
+@csrf_exempt
+@auth_check
+def json_product_delete(request, product_id):
 	context = {}
+	context['auth'] = True
 	try:
-		del_product = Product.objects.get(id=id)
+		del_product = Product.objects.get(id=product_id)
 		del_product.delete()
 		context['status'] = True
 	except:
@@ -144,12 +179,15 @@ def json_product_delete(request, id):
 	return HttpResponse(json.dumps(context))
 
 
-def json_image_add(request, id):
+@csrf_exempt
+@auth_check
+def json_image_add(request, product_id):
 	context = {}
+	context['auth'] = True
 	image_form = ImageForm(request.POST, request.FILES)
 	if request.method == 'POST' and image_form.is_valid():
 		new_file = image_form.save(commit=False)
-		new_file.product = Product.objects.get(id=id)
+		new_file.product = Product.objects.get(id=product_id)
 		new_file.save()
 		context['status'] = True
 	else:
@@ -157,10 +195,13 @@ def json_image_add(request, id):
 	return HttpResponse(json.dumps(context), content_type='application/json')
 
 
-def json_image_delete(request, id):
+@csrf_exempt
+@auth_check
+def json_image_delete(request, image_id):
 	context = {}
+	context['auth'] = True
 	try:
-		del_image = Image.objects.get(id=id)
+		del_image = Image.objects.get(id=image_id)
 		del_image.delete()
 		context['status'] = True
 	except:
