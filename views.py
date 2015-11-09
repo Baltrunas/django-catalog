@@ -134,11 +134,11 @@ def json_product_list(request):
 
 
 @csrf_exempt
-@auth_check
+# @auth_check
 def search(request):
 	if 'q' in request.GET and request.GET['q']:
 		q = request.GET['q']
-		product = list_to_json(Product.objects.filter(Q(name__icontains=q) | Q(barcode__icontains=q))[:100])
+		product = list_to_json(Product.objects.filter(Q(name__icontains=q) | Q(barcode__icontains=q), public=True, deleted=False)[:100])
 		return HttpResponse(json.dumps(product, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
 
 
@@ -147,7 +147,7 @@ def ajax_search(request):
 	products = []
 	if 'q' in request.GET and request.GET['q']:
 		q = request.GET['q']
-	for product in Product.objects.filter(Q(name__icontains=q) | Q(barcode__icontains=q))[:100]:
+	for product in Product.objects.filter(Q(name__icontains=q) | Q(barcode__icontains=q), public=True, deleted=False)[:100]:
 		products.append(product.name)
 	return HttpResponse(json.dumps(products, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
 
