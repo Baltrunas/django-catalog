@@ -144,12 +144,12 @@ def search(request):
 
 @csrf_exempt
 def ajax_search(request):
+	products = []
 	if 'q' in request.GET and request.GET['q']:
 		q = request.GET['q']
-		products = []
-        for product in Product.objects.filter(Q(name__icontains=q) | Q(barcode__icontains=q))[:100]:
-            products.append(product.name)
-	    return HttpResponse(json.dumps(products, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
+	for product in Product.objects.filter(Q(name__icontains=q) | Q(barcode__icontains=q))[:100]:
+		products.append(product.name)
+	return HttpResponse(json.dumps(products, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
 
 
 @csrf_exempt
