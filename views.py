@@ -46,7 +46,6 @@ def category(request, url):
 	return render(request, 'catalog/category.html', context)
 
 
-
 def brand(request, slug):
 	context = {}
 	context['brand'] = get_object_or_404(Brand, public=True, slug=slug)
@@ -139,8 +138,18 @@ def json_product_list(request):
 def search(request):
 	if 'q' in request.GET and request.GET['q']:
 		q = request.GET['q']
-		product = list_to_json(Product.objects.filter(Q(name__icontains=q) | Q(barcode__icontains=q)))
+		product = list_to_json(Product.objects.filter(Q(name__icontains=q) | Q(barcode__icontains=q))[:100])
 		return HttpResponse(json.dumps(product, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
+
+
+@csrf_exempt
+def ajax_search(request):
+	if 'q' in request.GET and request.GET['q']:
+		q = request.GET['q']
+		products = []
+        for product in Product.objects.filter(Q(name__icontains=q) | Q(barcode__icontains=q))[:100]:
+            products.append(product.name)
+	    return HttpResponse(json.dumps(products, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
 
 
 @csrf_exempt
