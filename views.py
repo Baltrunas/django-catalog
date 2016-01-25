@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+from apps.accounts.models import User
 from django.http import HttpResponse
 from django.core import serializers
 from django.shortcuts import render
@@ -68,8 +69,11 @@ def auth_check(view):
 	def wrapped(request, *args, **kwargs):
 		username = request.POST.get('username', None)
 		password = request.POST.get('password', None)
+		print username
+		print password
 		try:
 			user = User.objects.get(username=username)
+			print user
 			status = user.check_password(password)
 		except:
 			return HttpResponse(json.dumps({'auth': False}), content_type='application/json')
