@@ -172,7 +172,7 @@ class Product(BaseModel):
 
 	name = models.CharField(_('Name'), max_length=500)
 	brand = models.ForeignKey(Brand, verbose_name=_('Brand'), null=True, blank=True)
-	category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='products', null=True, blank=True)
+	category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='products')
 	cover = models.FileField(verbose_name=_('Image'), upload_to=product_upload, null=True, blank=True)
 	description = models.TextField(_('Description'), null=True, blank=True)
 
