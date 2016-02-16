@@ -8,6 +8,9 @@ urlpatterns = [
 	url(r'^api/json/product/list/$', views.json_product_list, name='json_product_list'),
 	url(r'^api/json/product/search/$', views.search, name='search'),
 	url(r'^api/json/product/ajax-search/$', views.ajax_search, name='ajax_search'),
+
+	url(r'^api/json/product/add/$', views.json_product_add, name='json_product_add'),
+
 	url(r'^api/json/product/update/(?P<product_id>\d+)/$', views.json_product_update, name='json_product_update'),
 	url(r'^api/json/product/delete/(?P<product_id>\d+)/$', views.json_product_delete, name='json_product_delete'),
 	url(r'^api/json/image/add/(?P<product_id>\d+)/$', views.json_image_add, name='json_image_add'),

@@ -221,3 +221,17 @@ def json_image_delete(request, image_id):
 	except:
 		context['status'] = False
 	return HttpResponse(json.dumps(context))
+
+
+@csrf_exempt
+@auth_check
+def json_product_add(request):
+	context = {}
+	context['auth'] = True
+	product_form = ProductForm(request.POST, request.FILES)
+	if product_form.is_valid():
+		product_form.save()
+		context['status'] = True
+	else:
+		context['status'] = False
+	return HttpResponse(json.dumps(context), content_type='application/json')
