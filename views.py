@@ -18,7 +18,7 @@ from .models import Category
 from .models import Brand
 from .models import Image
 
-from .forms import ProductForm, ImageForm
+from .forms import CategoryForm, ProductForm, ImageForm
 
 
 def category(request, url):
@@ -85,17 +85,64 @@ def auth_check(view):
 @auth_check
 def json_category_list(request):
 	context = {}
-	context['auth'] = True
 	categories = []
 	for category in Category.objects.all():
-		category_dict = {
+		order_dict = {
 			"id": category.id,
-			"name": category.name,
-			"parent": category.parent,
+			"name": u'%s' % category.name,
+			"slug": u'%s' % category.slug,
+			"order": u'%s' % category.order,
+			"childs_count": u'%s' % category.childs_count,
+			"products_count": u'%s' % category.products_count,
 		}
-		categories.append(category_dict)
-		context['categories'] = categories
+		categories.append(order_dict)
+	context['categories'] = categories
 	return HttpResponse(json.dumps(context, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
+
+
+@csrf_exempt
+@auth_check
+def json_category_add(request):
+	context = {}
+	context['auth'] = True
+	category_form = CategoryForm(request.POST or None)
+	if category_form.is_valid():
+		category_form.save()
+		context['status'] = True
+	else:
+		context['status'] = False
+	context['category_form'] = category_form
+	return HttpResponse(json.dumps(context, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
+
+
+@csrf_exempt
+@auth_check
+def json_category_update(request, category_id):
+	context = {}
+	context['auth'] = True
+	category_instance = Category.objects.get(id=category_id)
+	category_form = CategoryForm(request.POST or None, instance=category_instance)
+	if category_form.is_valid():
+		category_form.save()
+		context['status'] = True
+	else:
+		context['status'] = False
+		context['errors'] = category_form.errors
+	return HttpResponse(json.dumps(context, ensure_ascii=False), content_type="application/json; charset=utf-8")
+
+
+@csrf_exempt
+@auth_check
+def json_category_delete(request, category_id):
+	context = {}
+	context['auth'] = True
+	try:
+		Category.objects.get(id=category_id).delete()
+		context['status'] = True
+	except:
+		context['status'] = False
+	return HttpResponse(json.dumps(context))
+
 
 
 def list_to_json(raw_products):
@@ -117,6 +164,7 @@ def list_to_json(raw_products):
 			"id": product.id,
 			"barcode": product.barcode,
 			"name": product.name,
+			"category": u'%s' % product.category,
 			"cover": product.cover.url,
 			"description": product.description,
 			"retail_price": product.retail_price,
