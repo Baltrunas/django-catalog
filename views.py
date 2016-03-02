@@ -111,7 +111,6 @@ def json_category_add(request):
 		context['status'] = True
 	else:
 		context['status'] = False
-	context['category_form'] = category_form
 	return HttpResponse(json.dumps(context, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
 
 
