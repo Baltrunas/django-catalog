@@ -92,6 +92,7 @@ def json_category_list(request):
 			"name": u'%s' % category.name,
 			"slug": u'%s' % category.slug,
 			"order": u'%s' % category.order,
+			"parent": u'%s' % category.parent_id,
 			"childs_count": u'%s' % category.childs_count,
 			"products_count": u'%s' % category.products_count,
 		}
@@ -164,7 +165,7 @@ def list_to_json(raw_products):
 			"id": product.id,
 			"barcode": product.barcode,
 			"name": product.name,
-			"category": u'%s' % product.category,
+			"category": u'%s' % product.category.id,
 			"cover": product.cover.url,
 			"description": product.description,
 			"retail_price": product.retail_price,
