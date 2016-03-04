@@ -160,17 +160,24 @@ def list_to_json(raw_products):
 				"image": image.image.url,
 			}
 			images.append(image_dict)
+		if product.cover:
+			cover = product.cover.url
+		else:
+			cover = ''
 		product_dict = {
 			"id": product.id,
 			"barcode": product.barcode,
 			"name": product.name,
 			"category": u'%s' % product.category.id,
-			"cover": product.cover.url,
+			"cover": cover,
 			"description": product.description,
 			"retail_price": product.retail_price,
 			"wholesale_price": product.wholesale_price,
 			"retail_price_with_discount": product.retail_price_with_discount,
 			"images": images,
+			'public': product.public,
+			'main': product.main,
+			'deleted': product.deleted,
 		}
 		products.append(product_dict)
 	return products
