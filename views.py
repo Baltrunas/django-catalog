@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+from apps.accounts.models import User
 from django.http import HttpResponse
 from django.core import serializers
 from django.shortcuts import render
@@ -17,7 +18,7 @@ from .models import Category
 from .models import Brand
 from .models import Image
 
-from .forms import ProductForm, ImageForm
+from .forms import CategoryForm, ProductForm, ImageForm
 
 
 def category(request, url):
@@ -68,8 +69,11 @@ def auth_check(view):
 	def wrapped(request, *args, **kwargs):
 		username = request.POST.get('username', None)
 		password = request.POST.get('password', None)
+		print username
+		print password
 		try:
 			user = User.objects.get(username=username)
+			print user
 			status = user.check_password(password)
 		except:
 			return HttpResponse(json.dumps({'auth': False}), content_type='application/json')
@@ -81,17 +85,64 @@ def auth_check(view):
 @auth_check
 def json_category_list(request):
 	context = {}
-	context['auth'] = True
 	categories = []
 	for category in Category.objects.all():
-		category_dict = {
+		order_dict = {
 			"id": category.id,
-			"name": category.name,
-			"parent": category.parent,
+			"name": u'%s' % category.name,
+			"slug": u'%s' % category.slug,
+			"order": u'%s' % category.order,
+			"parent": u'%s' % category.parent_id,
+			"childs_count": u'%s' % category.childs_count,
+			"products_count": u'%s' % category.products_count,
 		}
-		categories.append(category_dict)
-		context['categories'] = categories
+		categories.append(order_dict)
+	context['categories'] = categories
 	return HttpResponse(json.dumps(context, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
+
+
+@csrf_exempt
+@auth_check
+def json_category_add(request):
+	context = {}
+	context['auth'] = True
+	category_form = CategoryForm(request.POST or None)
+	if category_form.is_valid():
+		category_form.save()
+		context['status'] = True
+	else:
+		context['status'] = False
+	return HttpResponse(json.dumps(context, ensure_ascii=False, indent=4), content_type="application/json; charset=utf-8")
+
+
+@csrf_exempt
+@auth_check
+def json_category_update(request, category_id):
+	context = {}
+	context['auth'] = True
+	category_instance = Category.objects.get(id=category_id)
+	category_form = CategoryForm(request.POST or None, instance=category_instance)
+	if category_form.is_valid():
+		category_form.save()
+		context['status'] = True
+	else:
+		context['status'] = False
+		context['errors'] = category_form.errors
+	return HttpResponse(json.dumps(context, ensure_ascii=False), content_type="application/json; charset=utf-8")
+
+
+@csrf_exempt
+@auth_check
+def json_category_delete(request, category_id):
+	context = {}
+	context['auth'] = True
+	try:
+		Category.objects.get(id=category_id).delete()
+		context['status'] = True
+	except:
+		context['status'] = False
+	return HttpResponse(json.dumps(context))
+
 
 
 def list_to_json(raw_products):
@@ -109,16 +160,24 @@ def list_to_json(raw_products):
 				"image": image.image.url,
 			}
 			images.append(image_dict)
+		if product.cover:
+			cover = product.cover.url
+		else:
+			cover = ''
 		product_dict = {
 			"id": product.id,
 			"barcode": product.barcode,
 			"name": product.name,
-			"cover": product.cover.url,
+			"category": u'%s' % product.category.id,
+			"cover": cover,
 			"description": product.description,
 			"retail_price": product.retail_price,
 			"wholesale_price": product.wholesale_price,
 			"retail_price_with_discount": product.retail_price_with_discount,
 			"images": images,
+			'public': product.public,
+			'main': product.main,
+			'deleted': product.deleted,
 		}
 		products.append(product_dict)
 	return products
@@ -217,3 +276,17 @@ def json_image_delete(request, image_id):
 	except:
 		context['status'] = False
 	return HttpResponse(json.dumps(context))
+
+
+@csrf_exempt
+@auth_check
+def json_product_add(request):
+	context = {}
+	context['auth'] = True
+	product_form = ProductForm(request.POST, request.FILES)
+	if product_form.is_valid():
+		product_form.save()
+		context['status'] = True
+	else:
+		context['status'] = False
+	return HttpResponse(json.dumps(context), content_type='application/json')
