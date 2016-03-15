@@ -178,6 +178,8 @@ class Product(BaseModel):
 
 	articul = models.CharField(_('Articul'), max_length=30, null=True, blank=True)
 
+	similar_product = models.ManyToManyField('self', verbose_name=_('Similar products'), related_name='similar_products', blank=True)
+
 	retail_price = models.DecimalField(_('Retail Price'), max_digits=16, decimal_places=4, default=Decimal('0.0000'))
 	wholesale_price = models.DecimalField(_('Wholesale Price'), max_digits=16, decimal_places=4, null=True, blank=True, default=Decimal('0.0000'))
 	retail_price_with_discount = models.DecimalField(_('Retail Price With Discount'), max_digits=16, decimal_places=4, null=True, blank=True, default=Decimal('0.0000'))
