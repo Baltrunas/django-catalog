@@ -95,6 +95,7 @@ def json_category_list(request):
 			"parent": u'%s' % category.parent_id,
 			"childs_count": u'%s' % category.childs_count,
 			"products_count": u'%s' % category.products_count,
+			'public': category.public,
 		}
 		categories.append(order_dict)
 	context['categories'] = categories
