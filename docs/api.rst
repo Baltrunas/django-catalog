@@ -217,19 +217,19 @@ products - сам список
 
 POST
 
-    |username - логин для авторизации
-    |password - пароль для авторизации
-    |name - name продукт
-    |barcode - barcode продукт
-    |category - category продукт
-    |cover - cover продукт
-    |description - description продукт
-    |articul - articul продукт
-    |retail_price - retail_price продукт
-    |wholesale_price - wholesale_price продукт
-    |retail_price_with_discount - retail_price_with_discount продукт
-    |public - public продукт
-    |main - main продукт
+    | username - логин для авторизации (requered)
+    | password - пароль для авторизации (requered)
+    | name - название продукта (requered)
+    | barcode - штрих-код продукта
+    | category - категория продукта (requered)
+    | cover - фото продукта
+    | description - описание продукта
+    | articul - артикул продукта
+    | retail_price - розничная цена продукта (requered)
+    | wholesale_price - оптовая цена продукта
+    | retail_price_with_discount - цена продукта со скидкой
+    | public - опубликовать продукт на сайте
+    | main - разместить продукт на главной странице
 
 Варианты ответа:
 
