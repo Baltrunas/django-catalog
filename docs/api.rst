@@ -47,12 +47,12 @@ categories - сам список
 
 POST
 
-  |username - логин для авторизации (requered)
-  |password - пароль для авторизации (requered)
-  |name - название категории (requered)
-  |slug - ярлык категории (requered)
-  |parent - родитель(если есть) категории (requered)
-  |order - порядок категории (requered)
+    | username - логин для авторизации (requered)
+    | password - пароль для авторизации (requered)
+    | name - название категории (requered)
+    | slug - ярлык категории (requered)
+    | parent - родитель категории
+    | order - порядок категории
 
 Варианты ответа:
 
