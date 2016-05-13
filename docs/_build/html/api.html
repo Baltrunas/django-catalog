@@ -1,0 +1,423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Api &mdash; Документация api_contacts 2.0</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Документация api_contacts 2.0" href="index.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="requirement.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="api">
+<h1>Api<a class="headerlink" href="#api" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="section" id="id1">
+<h2>Каталог категорий<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h2>
+<p><strong>/api/json/category/list/</strong></p>
+<p>POST</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">username - логин для авторизации</div>
+<div class="line">password - пароль для авторизации</div>
+</div>
+</div></blockquote>
+<p>Варианты ответа:</p>
+<p>Всё ок:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;categories&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;parent&quot;</span><span class="o">:</span> <span class="s2">&quot;None&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;order&quot;</span><span class="o">:</span> <span class="s2">&quot;None&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;products_count&quot;</span><span class="o">:</span> <span class="s2">&quot;12&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;childs_count&quot;</span><span class="o">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;slug&quot;</span><span class="o">:</span> <span class="s2">&quot;other&quot;</span>
+        <span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>categories - сам список</p>
+<p>Неправильный логин или пароль:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>Добавление категории<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<p><strong>/api/json/category/add/</strong></p>
+<p>POST</p>
+<blockquote>
+<div><a href="#id3"><span class="problematic" id="id4">|</span></a>username - логин для авторизации
+<a href="#id5"><span class="problematic" id="id6">|</span></a>password - пароль для авторизации
+<a href="#id7"><span class="problematic" id="id8">|</span></a>name - название категории
+<a href="#id9"><span class="problematic" id="id10">|</span></a>slug - ярлык категории
+<a href="#id11"><span class="problematic" id="id12">|</span></a>parent - родитель(если есть) категории
+<a href="#id13"><span class="problematic" id="id14">|</span></a>order - порядок категории</div></blockquote>
+<p>Варианты ответа:</p>
+<p>Всё ок:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Если форма не валидна:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Неправильный логин или пароль:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id15">
+<h2>Редактирование категории<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h2>
+<p><strong>/api/json/category/update/$id/</strong></p>
+<p>$id - id категории</p>
+<p>POST</p>
+<blockquote>
+<div><a href="#id16"><span class="problematic" id="id17">|</span></a>username - логин для авторизации
+<a href="#id18"><span class="problematic" id="id19">|</span></a>password - пароль для авторизации
+<a href="#id20"><span class="problematic" id="id21">|</span></a>name - название категории
+<a href="#id22"><span class="problematic" id="id23">|</span></a>slug - ярлык категории
+<a href="#id24"><span class="problematic" id="id25">|</span></a>parent - родитель(если есть) категории
+<a href="#id26"><span class="problematic" id="id27">|</span></a>order - порядок категории</div></blockquote>
+<p>Варианты ответа:</p>
+<p>Всё ок:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Если форма не валидна:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Неправильный логин или пароль:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id28">
+<h2>Удаление категории<a class="headerlink" href="#id28" title="Ссылка на этот заголовок">¶</a></h2>
+<p><strong>/api/json/category/delete/$id/</strong></p>
+<p>$id - id категории</p>
+<p>POST</p>
+<blockquote>
+<div><a href="#id29"><span class="problematic" id="id30">|</span></a>username - логин для авторизации
+<a href="#id31"><span class="problematic" id="id32">|</span></a>password - пароль для авторизации</div></blockquote>
+<p>Варианты ответа:</p>
+<p>Всё ок:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Неправильный логин или пароль:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id33">
+<h2>Все продукты<a class="headerlink" href="#id33" title="Ссылка на этот заголовок">¶</a></h2>
+<p><strong>/api/json/product/list/</strong></p>
+<p>POST</p>
+<blockquote>
+<div><a href="#id34"><span class="problematic" id="id35">|</span></a>username - логин для авторизации
+<a href="#id36"><span class="problematic" id="id37">|</span></a>password - пароль для авторизации</div></blockquote>
+<p>Варианты ответа:</p>
+<p>Всё ок:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;products&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;retail_price_with_discount&quot;</span><span class="o">:</span> <span class="s2">&quot;350.0000&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;deleted&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="s2">&quot;wholesale_price&quot;</span><span class="o">:</span> <span class="s2">&quot;350.0000&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;barcode&quot;</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;images&quot;</span><span class="o">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;image&quot;</span><span class="o">:</span> <span class="s2">&quot;/media/catalog/1/None.jpg&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;тест&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;product_id&quot;</span><span class="o">:</span> <span class="mi">1</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;retail_price&quot;</span><span class="o">:</span> <span class="s2">&quot;350.0000&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;category&quot;</span><span class="o">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Сердце с крыльями&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cover&quot;</span><span class="o">:</span> <span class="s2">&quot;/media/catalog/1/_cover.jpg&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;main&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="s2">&quot;public&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>&#8220;auth&#8221;: true - говорит о том что аутентификация прошла успешно (иначе false и не будет списка)</p>
+<p>products - сам список</p>
+<p>Неправильный логин или пароль:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id38">
+<h2>Создание товара<a class="headerlink" href="#id38" title="Ссылка на этот заголовок">¶</a></h2>
+<p><strong>/api/json/product/add/</strong></p>
+<p>POST</p>
+<blockquote>
+<div><a href="#id39"><span class="problematic" id="id40">|</span></a>username - логин для авторизации
+<a href="#id41"><span class="problematic" id="id42">|</span></a>password - пароль для авторизации
+<a href="#id43"><span class="problematic" id="id44">|</span></a>name - name продукт
+<a href="#id45"><span class="problematic" id="id46">|</span></a>barcode - barcode продукт
+<a href="#id47"><span class="problematic" id="id48">|</span></a>category - category продукт
+<a href="#id49"><span class="problematic" id="id50">|</span></a>cover - cover продукт
+<a href="#id51"><span class="problematic" id="id52">|</span></a>description - description продукт
+<a href="#id53"><span class="problematic" id="id54">|</span></a>articul - articul продукт
+<a href="#id55"><span class="problematic" id="id56">|</span></a>retail_price - retail_price продукт
+<a href="#id57"><span class="problematic" id="id58">|</span></a>wholesale_price - wholesale_price продукт
+<a href="#id59"><span class="problematic" id="id60">|</span></a>retail_price_with_discount - retail_price_with_discount продукт
+<a href="#id61"><span class="problematic" id="id62">|</span></a>public - public продукт
+<a href="#id63"><span class="problematic" id="id64">|</span></a>main - main продукт</div></blockquote>
+<p>Варианты ответа:</p>
+<p>Всё ок:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Если форма не валидна:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Неправильный логин или пароль:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id65">
+<h2>Редактирование товара<a class="headerlink" href="#id65" title="Ссылка на этот заголовок">¶</a></h2>
+<p><strong>/api/json/product/update/$id/</strong>
+$id - id продукта</p>
+<p>POST</p>
+<blockquote>
+<div><a href="#id66"><span class="problematic" id="id67">|</span></a>username - логин для авторизации
+<a href="#id68"><span class="problematic" id="id69">|</span></a>password - пароль для авторизации
+<a href="#id70"><span class="problematic" id="id71">|</span></a>name - name продукт
+<a href="#id72"><span class="problematic" id="id73">|</span></a>barcode - barcode продукт
+<a href="#id74"><span class="problematic" id="id75">|</span></a>category - category продукт
+<a href="#id76"><span class="problematic" id="id77">|</span></a>cover - cover продукт
+<a href="#id78"><span class="problematic" id="id79">|</span></a>description - description продукт
+<a href="#id80"><span class="problematic" id="id81">|</span></a>articul - articul продукт
+<a href="#id82"><span class="problematic" id="id83">|</span></a>retail_price - retail_price продукт
+<a href="#id84"><span class="problematic" id="id85">|</span></a>wholesale_price - wholesale_price продукт
+<a href="#id86"><span class="problematic" id="id87">|</span></a>retail_price_with_discount - retail_price_with_discount продукт
+<a href="#id88"><span class="problematic" id="id89">|</span></a>public - public продукт
+<a href="#id90"><span class="problematic" id="id91">|</span></a>main - main продукт</div></blockquote>
+<p>Варианты ответа:</p>
+<p>Всё ок:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Если форма не валидна:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Неправильный логин или пароль:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id92">
+<h2>Удаление продукта<a class="headerlink" href="#id92" title="Ссылка на этот заголовок">¶</a></h2>
+<p><strong>/api/json/product/delete/$id/</strong></p>
+<p>$id - id продукта</p>
+<p>POST</p>
+<blockquote>
+<div><a href="#id93"><span class="problematic" id="id94">|</span></a>username - логин для авторизации
+<a href="#id95"><span class="problematic" id="id96">|</span></a>password - пароль для авторизации</div></blockquote>
+<p>Варианты ответа:</p>
+<p>Всё ок:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Неправильный логин или пароль:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id97">
+<h2>Добавление изображения<a class="headerlink" href="#id97" title="Ссылка на этот заголовок">¶</a></h2>
+<p><strong>/api/json/image/add/$id/</strong></p>
+<p>$id - id продукта</p>
+<p>POST</p>
+<blockquote>
+<div><a href="#id98"><span class="problematic" id="id99">|</span></a>username - логин для авторизации
+<a href="#id100"><span class="problematic" id="id101">|</span></a>password - пароль для авторизации
+<a href="#id102"><span class="problematic" id="id103">|</span></a>name - название изображения
+<a href="#id104"><span class="problematic" id="id105">|</span></a>image - изображение</div></blockquote>
+<p>Варианты ответа:</p>
+<p>Всё ок:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Если форма не валидна:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Неправильный логин или пароль:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id106">
+<h2>Удаление изображения<a class="headerlink" href="#id106" title="Ссылка на этот заголовок">¶</a></h2>
+<p><strong>/api/json/image/delete/$id/</strong></p>
+<p>$id - id изображения</p>
+<p>POST</p>
+<blockquote>
+<div><a href="#id107"><span class="problematic" id="id108">|</span></a>username - логин для авторизации
+<a href="#id109"><span class="problematic" id="id110">|</span></a>password - пароль для авторизации</div></blockquote>
+<p>Варианты ответа:</p>
+<p>Всё ок:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Неправильный логин или пароль:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;auth&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Оглавление</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Api</a><ul>
+<li><a class="reference internal" href="#id1">Каталог категорий</a></li>
+<li><a class="reference internal" href="#id2">Добавление категории</a></li>
+<li><a class="reference internal" href="#id15">Редактирование категории</a></li>
+<li><a class="reference internal" href="#id28">Удаление категории</a></li>
+<li><a class="reference internal" href="#id33">Все продукты</a></li>
+<li><a class="reference internal" href="#id38">Создание товара</a></li>
+<li><a class="reference internal" href="#id65">Редактирование товара</a></li>
+<li><a class="reference internal" href="#id92">Удаление продукта</a></li>
+<li><a class="reference internal" href="#id97">Добавление изображения</a></li>
+<li><a class="reference internal" href="#id106">Удаление изображения</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="requirement.html" title="предыдущая глава">&lt;no title&gt;</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Эта страница</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/api.txt"
+            rel="nofollow">Исходный текст</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Быстрый поиск</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Искать" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Alex.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/api.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
