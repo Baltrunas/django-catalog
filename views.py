@@ -17,18 +17,19 @@ from .models import Product
 from .models import Category
 from .models import Brand
 from .models import Image
+from .models import FeatureValue
 
 from .forms import CategoryForm, ProductForm, ImageForm
 
 
 def category(request, url):
 	context = {}
-	context['category'] = get_object_or_404(Category, public=True, url=url)
-	context['childs'] = Category.objects.filter(public=True, parent=context['category']).order_by('name')
-	context['title'] = context['category'].name
+	category = get_object_or_404(Category, public=True, url=url)
+	context['childs'] = Category.objects.filter(public=True, parent=category).order_by('name')
+	context['title'] = category.name
 
 	# # Pagination
-	pages_list = context['category'].get_products()
+	pages_list = category.get_products()
 	page_number = request.GET.get('page', None)
 
 	paginator = Paginator(pages_list, settings.CATALOG_PER_PAGE)
@@ -43,6 +44,17 @@ def category(request, url):
 
 
 	# context['products_brands'] = Product.objects.filter(public=True, category=context['category'].id).order_by('brand')
+
+	sort_by = {
+		'name': '-name',
+		'created_at': '-created_at',
+		'features': 'product_features__features__name',
+	}
+	sort = request.GET.get('sort') or 'name'
+	print sort
+	context['products'] = Product.objects.filter(category=category).order_by(sort)
+
+	context['category'] = category
 
 	return render(request, 'catalog/category.html', context)
 

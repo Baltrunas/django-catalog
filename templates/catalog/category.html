@@ -16,6 +16,25 @@
 {% catalog %}
 
 
+
+<form class="b-search" action="" method="get">
+	<ul class='b-search-filter__items'>
+		<li class='b-search-filter__item'><a href="?sort=name">Название</a></li>
+		<li class='b-search-filter__item'><a href="?sort=created_at">Дата</a></li>
+		{% for feature in category.features.all %}
+			<li class='b-search-filter__item'><a href="?sort={{ feature.name }}">{{ feature.name }}</a></li>
+		{% endfor %}
+	</ul>
+</form>
+
+{% for product in products %}
+	{{ product }} <br>
+	{% for feature in product.product_features.all %}
+		<li class='b-search-filter__item'><a href="?sort=product_features__features__name">{{ feature.value }}</a></li>
+	{% endfor %}
+{% endfor %}
+
+
 <div class="b-sort">
 	<span class="b-sort__title">Сортировать по:</span>
 	<span class="b-sort__elem m-sort_date_down">Дате ↓</span>

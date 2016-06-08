@@ -4,6 +4,9 @@ from .models import Brand
 from .models import Category
 from .models import Product
 from .models import Image
+from .models import GroupsFeature
+from .models import FeatureKey
+from .models import FeatureValue
 
 
 class BrandAdmin(admin.ModelAdmin):
@@ -45,3 +48,8 @@ class ImageAdmin(admin.ModelAdmin):
 	search_fields = ['name']
 
 admin.site.register(Image, ImageAdmin)
+
+
+admin.site.register(GroupsFeature)
+admin.site.register(FeatureKey)
+admin.site.register(FeatureValue)

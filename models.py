@@ -239,3 +239,48 @@ class Image(BaseModel):
 		ordering = ['name']
 		verbose_name = _('Image')
 		verbose_name_plural = _('Images')
+
+# FeatureGroup
+class GroupsFeature(BaseModel):
+	name = models.CharField(_('Name'), max_length=256)
+
+	def __unicode__(self):
+		return self.name
+
+	class Meta:
+		verbose_name=_('Groups Feature')
+		verbose_name_plural=_('Groups Features')
+
+
+class FeatureKey(BaseModel):
+	group = models.ForeignKey(GroupsFeature, verbose_name=_('Group'), related_name='group_features', null=True)
+	name = models.CharField(_('Name'), max_length=350)
+	key = models.SlugField(_('Key'), unique=True)
+	KIND = (
+		('string', _('string')),
+		('int', _('Integer')),
+		('bool', _('Bool')),
+		('float', _('Float')),
+	)
+	kind = models.CharField(verbose_name=_('Kind'), max_length=10, choices=KIND)
+
+	def __unicode__(self):
+		return self.name
+
+	class Meta:
+		verbose_name=_('Feature')
+		verbose_name_plural=_('Features')
+
+
+class FeatureValue(BaseModel):
+	product = models.ForeignKey(Product, verbose_name=_('Product'), related_name='product_features', db_index=True)
+	features = models.ForeignKey(FeatureKey, verbose_name=_('Feature Key'), db_index=True)
+	value = models.CharField(_('Value'), max_length=4096)
+
+	def __unicode__(self):
+		return self.features.name + ': ' + self.value
+
+	class Meta:
+		# unique_together product features
+		verbose_name=_('Feature Product')
+		verbose_name_plural=_('Feature Products')
