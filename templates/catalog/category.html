@@ -45,6 +45,11 @@
 
 {% spaceless %}
 
+<form action="">
+	{{ filter_form }}
+	<input type="submit">
+</form>
+
 {% if category.childs_count %}
 <div class='b-sub-catigories'>
 	<h3>{% trans "Sub categories" %}</h3>

@@ -73,6 +73,7 @@ class Category(BaseModel):
 	products_total_count = models.IntegerField(default=0, null=True, blank=True, editable=False)
 
 	url = models.CharField(verbose_name=_('URL'), max_length=1024, null=True, blank=True, editable=False)
+	features = models.ManyToManyField('FeatureKey', verbose_name=_('Feature Key'))
 
 	def __init__(self, *args, **kwargs):
 		super(Category, self).__init__(*args, **kwargs)
@@ -257,10 +258,9 @@ class FeatureKey(BaseModel):
 	name = models.CharField(_('Name'), max_length=350)
 	key = models.SlugField(_('Key'), unique=True)
 	KIND = (
-		('string', _('string')),
-		('int', _('Integer')),
+		('choice', _('Choice')),
+		('range', _('Range')),
 		('bool', _('Bool')),
-		('float', _('Float')),
 	)
 	kind = models.CharField(verbose_name=_('Kind'), max_length=10, choices=KIND)
 

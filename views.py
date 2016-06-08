@@ -19,7 +19,7 @@ from .models import Brand
 from .models import Image
 from .models import FeatureValue
 
-from .forms import CategoryForm, ProductForm, ImageForm
+from .forms import CategoryForm, ProductForm, ImageForm, FilterForm
 
 
 def category(request, url):
@@ -54,6 +54,8 @@ def category(request, url):
 	print sort
 	context['products'] = Product.objects.filter(category=category).order_by(sort)
 
+	data = request.GET or None
+	context['filter_form'] = FilterForm(data=data, category=category)
 	context['category'] = category
 
 	return render(request, 'catalog/category.html', context)

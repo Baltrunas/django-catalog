@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.forms import ModelForm
-from .models import Category, Product, Image
+from django.forms import ModelForm, Form
+from django import forms
+from .models import Category, Product, Image, FeatureValue
 
 
 class CategoryForm(ModelForm):
@@ -20,3 +21,22 @@ class ImageForm(ModelForm):
 	class Meta:
 		model = Image
 		exclude = ['product']
+
+
+class FilterForm(Form):
+	# category = forms.ModelMultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, queryset=Category.objects.filter(public=True))
+
+	def __init__(self, category, *args, **kwargs):
+		initial = kwargs.pop('initial', {})
+
+		super(FilterForm, self).__init__(*args, **kwargs)
+
+		for key in category.features.all():
+			if key.kind == 'choice':
+				queryset = FeatureValue.objects.filter(public=True, features=key)
+				self.fields[key.key] = forms.ModelMultipleChoiceField(label=key.name, required=False, widget=forms.CheckboxSelectMultiple, queryset=queryset)
+			elif key.kind == 'range':
+				min_max = Product.objects.filter(public=True).aggregate(
+					Max('retail_price'),
+					Min('retail_price'),
+				)
