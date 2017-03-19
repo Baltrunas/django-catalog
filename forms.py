@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.forms import ModelForm, Form
 from django import forms
-from .models import Category, Product, Image, FeatureValue
+from .models import Category, Product, Image, FeatureValue, Rent
 
 
 class CategoryForm(ModelForm):
@@ -40,3 +40,8 @@ class FilterForm(Form):
 					Max('retail_price'),
 					Min('retail_price'),
 				)
+
+class RentForm(ModelForm):
+	class Meta:
+		model = Rent
+		fields = ['product', 'rent_from', 'rent_to', 'rent_count']

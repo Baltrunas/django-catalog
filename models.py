@@ -73,7 +73,7 @@ class Category(BaseModel):
 	products_total_count = models.IntegerField(default=0, null=True, blank=True, editable=False)
 
 	url = models.CharField(verbose_name=_('URL'), max_length=1024, null=True, blank=True, editable=False)
-	features = models.ManyToManyField('FeatureKey', verbose_name=_('Feature Key'))
+	features = models.ManyToManyField('FeatureKey', verbose_name=_('Feature Key'), blank=True)
 
 	def __init__(self, *args, **kwargs):
 		super(Category, self).__init__(*args, **kwargs)
@@ -208,6 +208,14 @@ class Product(BaseModel):
 
 	sort = models.IntegerField(verbose_name=_('Sort'), default=500, blank=True, null=True)
 
+	PRICE_FOR = (
+		('one', _('For one')),
+		('kg', _('Kilogram')),
+		('day', _('Day')),
+	)
+
+	price_for = models.CharField(_('Price for'), max_length=50, choices=PRICE_FOR, default='one')
+
 	main = models.BooleanField(verbose_name=_('Main'), default=False)
 	deleted = models.BooleanField(_('Deleted'), default=False)
 
@@ -284,3 +292,33 @@ class FeatureValue(BaseModel):
 		# unique_together product features
 		verbose_name=_('Feature Product')
 		verbose_name_plural=_('Feature Products')
+
+
+class Rent (models.Model):
+	product = models.ForeignKey(Product, verbose_name=_('Product'))
+
+	retail_price = models.DecimalField(_('Retail price'), max_digits=16, decimal_places=4, default=Decimal('0.0000'))
+	retail_price_with_discount = models.DecimalField(_('Discount price'), max_digits=16, decimal_places=4, null=True, blank=True, default=Decimal('0.0000'))
+
+	rent_from = models.DateTimeField(_('Rent from'))
+	rent_to = models.DateTimeField(_('Rent to'))
+	rent_count = models.PositiveIntegerField(_('Rent count'))
+
+	def name(self):
+		return '%s [%s - %s]' % (self.product.name, self.rent_from.date(), self.rent_to.date())
+
+	def cover(self):
+		return self.product.cover
+
+	def save(self, sort=True, *args, **kwargs):
+		if self.product.price_for == 'day':
+			self.rent_count = (self.rent_to - self.rent_from).days
+
+			self.retail_price = self.rent_count * self.product.retail_price
+			self.retail_price_with_discount = self.rent_count * self.product.retail_price_with_discount
+
+		rent = super(Rent, self).save(*args, **kwargs)
+		return rent
+
+	def get_content_type(self):
+		return ContentType.objects.get_for_model(self)

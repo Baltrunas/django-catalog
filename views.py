@@ -14,12 +14,13 @@ from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Product
+from .models import Rent
 from .models import Category
 from .models import Brand
 from .models import Image
 from .models import FeatureValue
 
-from .forms import CategoryForm, ProductForm, ImageForm, FilterForm
+from .forms import CategoryForm, ProductForm, ImageForm, FilterForm, RentForm
 
 
 def category(request, url):
@@ -303,5 +304,20 @@ def json_product_add(request):
 		product_form.save()
 		context['status'] = True
 	else:
+		context['status'] = False
+	return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+def json_rent_add(request):
+	context = {}
+	context['auth'] = True
+	rent_form = RentForm(request.POST)
+	if rent_form.is_valid():
+		rent = rent_form.save()
+		context['object_id'] = rent.id
+		context['content_type'] = rent.get_content_type().id
+		context['status'] = True
+	else:
+		context['errors'] = rent_form.errors
 		context['status'] = False
 	return HttpResponse(json.dumps(context), content_type='application/json')

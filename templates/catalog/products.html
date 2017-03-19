@@ -1,0 +1,56 @@
+{% load i18n %}
+
+{% for product in products %}
+	<div class='b-product m-product__{{ product.id }}'>
+		<div class='b-product__image_list'>
+			<img class='b-product__image_item' src='{{ product.cover.url }}'>
+			{% for image in product.images.all %}
+				<img class='b-product__image_item' src='{{ image.image.url }}'>
+			{% endfor %}
+		</div>
+
+		<div class='b-product__info'>
+			<h3 class='b-product__title'>{{ product.name }}</h3>
+			<div class='b-product__description'>{{ product.description|safe }}</div>
+
+			<div class='b-product__price'>
+				Price: {{ product.retail_price_with_discount|floatformat:2 }}$
+			</div>
+		</div><!-- b-product__info -->
+
+		<div class='b-product__order
+			{% for item in bucket %}
+				{% if item.content_object.product.id == product.id %}
+					m-product__order_in_bucket
+				{% endif %}
+			{% endfor %}
+		'>
+
+			{% if product.price_for == 'day' %}
+				<div class='b-product__rent'>
+					<div class='b-field m-field__rent_from'>
+						<label class='b-field__label' for='id_rent_from'>{% trans "Rent from" %}</label>
+						<input class='b-field__field' type='date' name='rent_from'>
+						<span class='b-field__error'></span>
+					</div>
+					<div class='b-field m-field__rent_to'>
+						<label class='b-field__label' for='id_rent_to'>{% trans "Rent to" %}</label>
+						<input class='b-field__field' type='date' name='rent_to'>
+						<span class='b-field__error'></span>
+					</div>
+					<div class='b-field m-field__rent_count'>
+						<label class='b-field__label' for='id_rent_count'>{% trans "Rent count" %}</label>
+						<input class='b-field__field' type='number' name='rent_count'>
+						<span class='b-field__error'></span>
+					</div>
+
+					<input class='b-rent__submit' type='submit' name='Rent' data-product='{{ product.id }}' data-csrf='{{ csrf_token }}'>
+				</div>
+				<button class='b-button_extra'>{% trans "Add extra" %}</button>
+				<a class='b-button_bucket' href='{% url "order" %}'>{% trans "Go to bucket" %}</a>
+			{% else %}
+				{% include "accounts/bucket__widget.html" with obj=product %}
+			{% endif %}
+		</div><!-- b-product__order -->
+	</div><!-- b-product m-product__{{ product.id }} -->
+{% endfor %}
