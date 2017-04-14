@@ -307,7 +307,7 @@ def json_product_add(request):
 		context['status'] = False
 	return HttpResponse(json.dumps(context), content_type='application/json')
 
-
+@csrf_exempt
 def json_rent_add(request):
 	context = {}
 	context['auth'] = True

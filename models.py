@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
+from django.core.validators import MinValueValidator
 
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import SafeUnicode
@@ -302,7 +303,7 @@ class Rent (models.Model):
 
 	rent_from = models.DateTimeField(_('Rent from'))
 	rent_to = models.DateTimeField(_('Rent to'))
-	rent_count = models.PositiveIntegerField(_('Rent count'))
+	rent_count = models.PositiveIntegerField(_('Rent count'), validators=[MinValueValidator(1)])
 
 	def name(self):
 		return '%s [%s - %s]' % (self.product.name, self.rent_from.date(), self.rent_to.date())

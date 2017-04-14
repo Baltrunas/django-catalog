@@ -40,9 +40,10 @@ $(function() {
 					if (bucket_response.status == 'ok') {
 						console.log(bucket_response);
 
-						$('.b-button_extra').show();
-						$('.b-button_bucket').show();
-						$('.b-product__rent').hide();
+						// $('.b-button_extra').show();
+						// $('.b-button_bucket').show();
+						// $('.b-product__rent').hide();
+						$this.parent().parent().addClass('m-product__order_in_bucket');
 
 						$this.prop('disabled', false);
 					}
@@ -64,7 +65,8 @@ $(function() {
 	});
 
 	$('.b-button_extra').on('click', function(e) {
-		$('.b-button_extra').hide();
-		$('.b-product__rent').show();
+		$(this).parent().removeClass('m-product__order_in_bucket');
+		// $('.b-button_extra').hide();
+		// $('.b-product__rent').show();
 	});
 });
