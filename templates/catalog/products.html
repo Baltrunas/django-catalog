@@ -29,12 +29,12 @@
 			{% if product.price_for == 'day' %}
 				<div class='b-product__rent'>
 					<div class='b-field m-field__rent_from'>
-						<label class='b-field__label' for='id_rent_from'>{% trans "Rent from" %}</label>
+						<label class='b-field__label' for='id_rent_from'>{% trans "Cteck in" %}</label>
 						<input class='b-field__field' type='date' name='rent_from'>
 						<span class='b-field__error'></span>
 					</div>
 					<div class='b-field m-field__rent_to'>
-						<label class='b-field__label' for='id_rent_to'>{% trans "Rent to" %}</label>
+						<label class='b-field__label' for='id_rent_to'>{% trans "Check out" %}</label>
 						<input class='b-field__field' type='date' name='rent_to'>
 						<span class='b-field__error'></span>
 					</div>
@@ -44,7 +44,8 @@
 						<span class='b-field__error'></span>
 					</div>
 
-					<input class='b-rent__submit' type='submit' name='Rent' data-product='{{ product.id }}' data-csrf='{{ csrf_token }}'>
+					<button class='b-rent__submit' type='submit' data-product='{{ product.id }}' data-csrf='{{ csrf_token }}'>{% trans "Add to basket" %}</button>
+					{# <input class='b-rent__submit' type='submit' value='{% trans "Add to Basket" %}' data-product='{{ product.id }}' data-csrf='{{ csrf_token }}'> #}
 				</div>
 				<button class='b-button_extra'>{% trans "Add extra" %}</button>
 				<a class='b-button_bucket' href='{% url "order" %}'>{% trans "Go to bucket" %}</a>
@@ -53,4 +54,9 @@
 			{% endif %}
 		</div><!-- b-product__order -->
 	</div><!-- b-product m-product__{{ product.id }} -->
+
+<!--
+{% trans "Rent from" %}
+{% trans "Rent to" %}
+-->
 {% endfor %}

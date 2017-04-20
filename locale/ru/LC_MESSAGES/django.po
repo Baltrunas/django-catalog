@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-28 12:23+0300\n"
+"POT-Creation-Date: 2017-04-20 13:22+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,184 +19,337 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: models.py:11
+#: forms.py:54
+msgid "Min check in date is Today"
+msgstr "Минимальная дата заезда сегодня"
+
+#: forms.py:64
+msgid "Min check out date is Tomorrow"
+msgstr "Минимальная дата отъезда завтра"
+
+#: forms.py:71
+msgid "Check in must be after check out"
+msgstr "Выезд должен быть после заезда"
+
+#: models.py:12
 msgid "Public"
 msgstr "Публикация"
 
-#: models.py:12
+#: models.py:13
 msgid "Created at"
 msgstr "Создано"
 
-#: models.py:13
+#: models.py:14
 msgid "Updated at"
 msgstr "Обновлено"
 
-#: models.py:41 models.py:55 models.py:167 models.py:220
+#: models.py:42 models.py:61 models.py:175 models.py:241 models.py:255
+#: models.py:267
 msgid "Name"
 msgstr "Имя"
 
-#: models.py:42 models.py:56
+#: models.py:43 models.py:62
 msgid "Slug"
 msgstr "Ярлык"
 
-#: models.py:42 models.py:56
+#: models.py:43 models.py:62
 msgid ""
 "A slug is the part of a URL which identifies a page using human-readable "
 "keywords"
 msgstr ""
 
-#: models.py:43
+#: models.py:44
 msgid "Logo"
 msgstr "Лого"
 
-#: models.py:50 models.py:168 templates/catalog/product.html:65
+#: models.py:56 models.py:176 templates/catalog/product.html:66
 msgid "Brand"
 msgstr "Бренд"
 
-#: models.py:51
+#: models.py:57
 msgid "Brands"
 msgstr "Бренды"
 
-#: models.py:57
+#: models.py:63
 msgid "Cover"
 msgstr "Обложка"
 
-#: models.py:58
+#: models.py:64
 msgid "Icon"
 msgstr "Иконка"
 
-#: models.py:60
+#: models.py:66
 msgid "Parent"
 msgstr "Родитель"
 
-#: models.py:70
+#: models.py:76
 msgid "URL"
 msgstr ""
 
-#: models.py:159 models.py:169
+#: models.py:77 models.py:286
+msgid "Feature Key"
+msgstr ""
+
+#: models.py:166 models.py:177
 msgid "Category"
 msgstr "Категория"
 
-#: models.py:160
+#: models.py:167
 msgid "Categories"
 msgstr "Категории"
 
-#: models.py:164
+#: models.py:171
 msgid "Sync ID"
 msgstr ""
 
-#: models.py:165 templates/catalog/product.html:67
+#: models.py:172
+msgid "GUID"
+msgstr ""
+
+#: models.py:173 templates/catalog/product.html:72
 msgid "Barcode"
 msgstr "Штрих-код"
 
-#: models.py:170 models.py:221 models.py:229
+#: models.py:178 models.py:242 models.py:250
 msgid "Image"
 msgstr "Изображение"
 
-#: models.py:171
+#: models.py:179
 msgid "Description"
 msgstr "Описание"
 
-#: models.py:173 templates/catalog/product.html:66
+#: models.py:181 templates/catalog/product.html:69
 msgid "Articul"
 msgstr "Артикул"
 
-#: models.py:175
+#: models.py:183
+msgid "Similar products"
+msgstr "Похожие продукты"
+
+#: models.py:185
 msgid "Retail Price"
 msgstr "Цена"
 
-#: models.py:176
+#: models.py:186
 msgid "Wholesale Price"
 msgstr "Цена склада"
 
-#: models.py:177
+#: models.py:187
 msgid "Retail Price With Discount"
 msgstr "Цена со скидкой"
 
-#: models.py:178
+#: models.py:188
 msgid "Min Quantity For Order"
 msgstr "Минимальное количество для заказа"
 
-#: models.py:179
+#: models.py:189
 msgid "Warehouse Quantity"
 msgstr "Количество на складе"
 
-#: models.py:181 templates/catalog/product.html:86
+#: models.py:191 templates/catalog/product.html:75
 msgid "Height"
 msgstr "Высота"
 
-#: models.py:182 templates/catalog/product.html:89
+#: models.py:192 templates/catalog/product.html:78
 msgid "Width"
 msgstr "Ширина"
 
-#: models.py:183
+#: models.py:193
 msgid "The Size"
 msgstr "Размер"
 
-#: models.py:184 templates/catalog/product.html:95
+#: models.py:194 templates/catalog/product.html:84
 msgid "Color"
 msgstr "Цвет"
 
-#: models.py:185 templates/catalog/product.html:98
+#: models.py:195 templates/catalog/product.html:87
 msgid "Material"
 msgstr "Материал"
 
-#: models.py:188
+#: models.py:198
 msgid "Undefined"
 msgstr "Не указан"
 
-#: models.py:189
+#: models.py:199
 msgid "Man"
 msgstr "Мужской"
 
-#: models.py:190
+#: models.py:200
 msgid "Women"
 msgstr "Женский"
 
-#: models.py:191
+#: models.py:201
 msgid "Boy"
 msgstr "Мальчик"
 
-#: models.py:192
+#: models.py:202
 msgid "Girl"
 msgstr "Девочка"
 
-#: models.py:193
+#: models.py:203
 msgid "Unisex"
 msgstr ""
 
-#: models.py:195 templates/catalog/product.html:101
+#: models.py:205 templates/catalog/product.html:90
 msgid "Sex"
 msgstr "Пол"
 
-#: models.py:197 templates/catalog/product.html:104
+#: models.py:207 templates/catalog/product.html:93
 msgid "Season"
 msgstr "Сезон"
 
-#: models.py:198 templates/catalog/product.html:107
+#: models.py:208 templates/catalog/product.html:96
 msgid "Age"
 msgstr "Возраст"
 
-#: models.py:200
+#: models.py:210
+msgid "Sort"
+msgstr ""
+
+#: models.py:213
+msgid "For one"
+msgstr ""
+
+#: models.py:214
+msgid "Kilogram"
+msgstr ""
+
+#: models.py:215
+msgid "Day"
+msgstr ""
+
+#: models.py:218
+msgid "Price for"
+msgstr ""
+
+#: models.py:220
+msgid "Main"
+msgstr ""
+
+#: models.py:221
 msgid "Deleted"
 msgstr "Удалено"
 
-#: models.py:204 models.py:219
+#: models.py:225 models.py:240 models.py:285 models.py:299
 msgid "Product"
 msgstr "Продукт"
 
-#: models.py:205
+#: models.py:226
 msgid "Products"
 msgstr "Продукты"
 
-#: models.py:230
+#: models.py:251
 msgid "Images"
 msgstr "Изображения"
 
-#: templates/catalog/category.html:21
+#: models.py:261
+msgid "Groups Feature"
+msgstr ""
+
+#: models.py:262
+msgid "Groups Features"
+msgstr ""
+
+#: models.py:266
+msgid "Group"
+msgstr ""
+
+#: models.py:268
+msgid "Key"
+msgstr ""
+
+#: models.py:270
+msgid "Choice"
+msgstr ""
+
+#: models.py:271
+msgid "Range"
+msgstr ""
+
+#: models.py:272
+msgid "Bool"
+msgstr ""
+
+#: models.py:274
+msgid "Kind"
+msgstr ""
+
+#: models.py:280
+msgid "Feature"
+msgstr ""
+
+#: models.py:281
+msgid "Features"
+msgstr ""
+
+#: models.py:287
+msgid "Value"
+msgstr ""
+
+#: models.py:294
+#, fuzzy
+#| msgid "Product"
+msgid "Feature Product"
+msgstr "Продукт"
+
+#: models.py:295
+#, fuzzy
+#| msgid "Products"
+msgid "Feature Products"
+msgstr "Продукты"
+
+#: models.py:301
+#, fuzzy
+#| msgid "Retail Price"
+msgid "Retail price"
+msgstr "Цена"
+
+#: models.py:302
+msgid "Discount price"
+msgstr ""
+
+#: models.py:304 templates/catalog/products.html:59
+msgid "Rent from"
+msgstr ""
+
+#: models.py:305 templates/catalog/products.html:60
+msgid "Rent to"
+msgstr ""
+
+#: models.py:306 templates/catalog/products.html:42
+msgid "Rent count"
+msgstr ""
+
+#: templates/catalog/category.html:55
 msgid "Sub categories"
 msgstr "Подкатегории"
 
-#: templates/catalog/product.html:92
+#: templates/catalog/product.html:61
+#, fuzzy
+#| msgid "Warehouse Quantity"
+msgid "Warehouse quantity"
+msgstr "Количество на складе"
+
+#: templates/catalog/product.html:81
 msgid "Size"
 msgstr "Размер"
+
+#: templates/catalog/products.html:32
+msgid "Cteck in"
+msgstr "Дата заезда"
+
+#: templates/catalog/products.html:37
+msgid "Check out"
+msgstr "Дата выезда"
+
+#: templates/catalog/products.html:47
+msgid "Add to basket"
+msgstr "Добавить в корзину"
+
+#: templates/catalog/products.html:50
+msgid "Add extra"
+msgstr "Добоавить ещё"
+
+#: templates/catalog/products.html:51
+msgid "Go to bucket"
+msgstr "Перейти в корзину"

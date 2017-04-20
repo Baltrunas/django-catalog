@@ -306,7 +306,7 @@ class Rent (models.Model):
 	rent_count = models.PositiveIntegerField(_('Rent count'), validators=[MinValueValidator(1)])
 
 	def name(self):
-		return '%s [%s - %s]' % (self.product.name, self.rent_from.date(), self.rent_to.date())
+		return '%s \ %s [%s - %s]' % (self.product.category.name, self.product.name, self.rent_from.date(), self.rent_to.date())
 
 	def cover(self):
 		return self.product.cover

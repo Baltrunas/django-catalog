@@ -64,9 +64,10 @@ class RentForm(ModelForm):
 				raise forms.ValidationError(_('Min check out date is Tomorrow'))
 
 		if 'rent_from' in self.cleaned_data and 'rent_to' in self.cleaned_data:
-			rent_from = parse_date(str(self.cleaned_data['rent_from']))
-			rent_to = parse_date(str(self.cleaned_data['rent_to']))
-			if rent_from < rent_to:
+			rent_from = self.cleaned_data['rent_from'].date()
+			rent_to = self.cleaned_data['rent_to'].date()
+
+			if rent_from > rent_to:
 				raise forms.ValidationError(_('Check in must be after check out'))
 
 		return self.cleaned_data['rent_to']
